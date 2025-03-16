@@ -1,0 +1,235 @@
+{
+    "name": "lakehouse",
+    "dockerComposeFile": [
+        "./docker-compose.yml"
+    ],
+    "service": "app",
+    "workspaceFolder": "/workspace/lakehouse",
+    "remoteUser": "vscode",
+    "containerUser": "vscode",
+    //
+    // Features - https://containers.dev/implementors/features.
+    //
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {},
+        "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+    //
+    // ContainerEnv
+    //
+    "containerEnv": {
+        "TF_LOG_PATH": "./terraform.log"
+    },
+    // "onCreateCommand": {},
+    // "updateContentCommand": {},
+    // "postCreateCommand": {},
+    "postStartCommand": {
+		// "zsh": "../.dotfiles/install.sh"
+    },
+    // "postAttachCommand": {},
+    // "waitFor": "", // default updateContentCommand
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Terraform
+                "hashicorp.terraform", // https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
+                // Tools
+                "eamodio.gitlens", // https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
+                "ms-azure-devops.azuredevops", // https://marketplace.visualstudio.com/items?itemName=ms-azure-devops.azuredevops
+                // Copilot
+                "GitHub.copilot", // https://marketplace.visualstudio.com/items?itemName=GitHub.copilot
+                "GitHub.copilot-chat" // https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat
+            ],
+            "settings": {
+                "workbench.tree.indent": 24,
+                "testing.alwaysRevealTestOnStateChange": true,
+                "problems.showCurrentInStatus": true,
+                //
+                // Add the extension IDs you want to suppress
+                //
+                "extensions.unwantedRecommendations": [],
+                //
+                // Terminal / zsh customisation
+                //
+                "workbench.startupEditor": "readme", // doesnt seem to consistently work in devcontainer
+                "terminal.integrated.enableVisualBell": true,
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "zsh"
+                    }
+                },
+                //
+                // Git - search gitignore in parent monorepo folder
+                //
+                "git.openRepositoryInParentFolders": "always",
+                "search.useIgnoreFiles": true,
+                "search.useParentIgnoreFiles": true,
+                //
+                // tf files
+                //
+                "editor.formatOnSave": true,
+                // doesnt work currently because terraform isnt installed in devcontainer, only opentofu is
+                "[terraform]": {
+                    "editor.defaultFormatter": "hashicorp.terraform",
+                    "editor.formatOnSave": false,
+                    "editor.codeActionsOnSave": {
+                        "source.formatAll.terraform": "explicit"
+                    }
+                },
+                //
+                // VsCode Tasks
+                //
+                "tasks": {
+                    // https://code.visualstudio.com/docs/editor/tasks#vscode
+                    "version": "2.0.0",
+                    "options": {
+                        "env": {
+                            "PYTEST_ADDOPTS": "--tb=native"
+                        }
+                    },
+                    "tasks": [
+                        //
+                        // management / dependent tasks
+                        //
+                        {
+                            "label": "git clean",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/git_clean.sh",
+                            "runOptions": {
+                                "runOn": "default"
+                            },
+                            "presentation": {
+                                "clear": true,
+                                "showReuseMessage": false
+                            },
+                            "group": "environment",
+                            "problemMatcher": []
+                        },
+                        //
+                        // all Task groups
+                        //
+                        {
+                            "label": "build & test",
+                            "dependsOn": [
+                                "build",
+                                "test"
+                            ],
+                            "dependsOrder": "sequence",
+                            "runOptions": {
+                                "runOn": "folderOpen"
+                            },
+                            "problemMatcher": []
+                        },
+                        //
+                        // build
+                        //
+                        {
+                            "label": "build",
+                            "dependsOn": [
+                            ],
+                            "group": {
+                                "kind": "build",
+                                "isDefault": true
+                            },
+                            "problemMatcher": []
+                        },
+                        //
+                        // test
+                        //
+                        {
+                            "label": "test",
+                            "dependsOn": [
+                                "trufflehog"
+                            ],      
+                            "group": {
+                                "kind": "test",
+                                "isDefault": true
+                            },
+                            "problemMatcher": []
+                        },
+                        {
+                            "label": "trufflehog",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/trufflehog.sh",
+                            "args": [
+                                "--target_path=file://${workspaceFolder}/../",
+                                "--config_filepath=${workspaceFolder}/../.tools/v1/configs/trufflehog.toml"
+                            ],
+                            "presentation": {
+                                "panel": "dedicated",
+                                "clear": true
+                            },
+                            "problemMatcher": []
+                        },
+                        {
+                            "label": "opentofu init",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_init.sh",
+                            "args": [],
+                            "group": "build",
+                            "presentation": {
+                                "reveal": "always",
+                                "panel": "shared"
+                            },
+                            "problemMatcher": []
+                        },
+                        {
+                            "label": "opentofu plan",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_plan.sh",
+                            "args": [],
+                            "group": "build",
+                            "presentation": {
+                                "reveal": "always",
+                                "panel": "shared"
+                            },
+                            "problemMatcher": []
+                        },
+                        {
+                            "label": "opentofu validate",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_validate.sh",
+                            "args": [],
+                            "group": "build",
+                            "presentation": {
+                                "reveal": "always",
+                                "panel": "shared"
+                            },
+                            "problemMatcher": []
+                        },
+                        {
+                            "label": "opentofu apply",
+                            "type": "shell",
+                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_apply.sh",
+                            "args": [],
+                            "group": "build",
+                            "presentation": {
+                                "reveal": "always",
+                                "panel": "shared"
+                            },
+                            "problemMatcher": []
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+//
+// Predefined Variables
+//
+// ${cwd} - the task runner's current working directory on startup
+// ${workspaceFolder} - the path of the folder opened in VS Code
+// ${workspaceRootFolderName} - the name of the folder opened in VS Code without any slashes (/)
+// ${workspaceFolderBasename} - the name of the folder opened in VS Code without any slashes (/)
+// ${file} - the current opened file
+// ${relativeFile} - the current opened file relative to workspaceFolder
+// ${relativeFileDirname} - the current opened file's dirname relative to workspaceFolder
+// ${fileBasename} - the current opened file's basename
+// ${fileBasenameNoExtension} - the current opened file's basename with no file extension
+// ${fileDirname} - the current opened file's dirname
+// ${fileExtname} - the current opened file's extension
+// ${lineNumber} - the current selected line number in the active file
+// ${selectedText} - the current selected text in the active file
+// ${execPath} - the path to the running VS Code executable
