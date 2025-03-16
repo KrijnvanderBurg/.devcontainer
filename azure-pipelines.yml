@@ -13,7 +13,7 @@ steps:
 # Replace the username and registry name here with your own details
 # This step also uses an ACR_TOKEN specified as a parameter
 - script: |
-    echo "$(acrToken)" | docker login ghcr.io -u krijnvanderburg --password-stdin
+    echo "${{ parameters.acrToken }}" | docker login ghcr.io -u krijnvanderburg --password-stdin
   displayName: 'Log in to Container Registry'
 
 - task: DevcontainersCi@0
