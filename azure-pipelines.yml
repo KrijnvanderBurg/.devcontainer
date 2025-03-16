@@ -26,4 +26,4 @@ steps:
     # runCmd: 'make ci-build'
     # sourceBranchFilterForPush allows you to limit which branch's builds
     # are pushed to the registry
-    sourceBranchFilterForPush: refs/heads/main
+    # sourceBranchFilterForPush: refs/heads/main
