@@ -16,7 +16,7 @@ steps:
 - task: DevcontainersCi@0
   inputs:
     # Change this to point to your image name
-    imageName: 'devcontainer.azurecr.io/example-dev-container'
+    imageName: 'ghcr.io/krijnvanderburg/python-devcontainer'
     # Change this to be your CI task/script
     subFolder: python
     runCmd: 'make ci-build'
