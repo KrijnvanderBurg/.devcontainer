@@ -21,7 +21,8 @@ steps:
     # Change this to point to your image name
     imageName: 'ghcr.io/krijnvanderburg/python-devcontainer'
     # Change this to be your CI task/script
-    subFolder: python
+    # subFolder: python
+    configFile: python/devcontainer.json
     runCmd: 'make ci-build'
     # sourceBranchFilterForPush allows you to limit which branch's builds
     # are pushed to the registry
