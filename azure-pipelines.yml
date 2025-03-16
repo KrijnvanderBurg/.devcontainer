@@ -8,7 +8,7 @@ steps:
 # Replace the username and registry name here with your own details
 # This step also uses an ACR_TOKEN specified as a secret variable
 - script: |
-    echo "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" | docker login ghcr.io -u krijnvanderburg --password-stdin
+    docker login ghcr.io -u krijnvanderburg -p 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
   displayName: 'Log in to Container Registry'
   env:
     ACR_TOKEN: $(ACR_TOKEN)
