@@ -23,7 +23,7 @@ steps:
     # Change this to be your CI task/script
     # subFolder: python
     configFile: python/devcontainer.json
-    runCmd: 'make ci-build'
+    # runCmd: 'make ci-build'
     # sourceBranchFilterForPush allows you to limit which branch's builds
     # are pushed to the registry
     sourceBranchFilterForPush: refs/heads/main
