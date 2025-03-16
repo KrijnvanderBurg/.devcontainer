@@ -5,7 +5,7 @@
 		"./docker-compose.yml"
 	],
 	"service": "app",
-	"workspaceFolder": "/workspace/hello_world",
+	"workspaceFolder": "/workspace",
 	"remoteUser": "vscode",
 	"containerUser": "vscode",
 	//
