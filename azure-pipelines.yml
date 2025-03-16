@@ -1,14 +1,17 @@
 trigger:
 - main
 
+pool:
+  vmImage: ubuntu-latest
+
 steps:
 # Replace the username and registry name here with your own details
 # This step also uses an ACR_TOKEN specified as a secret variable
-- task: Docker@2
-  displayName: 'Login to ACR'
-  inputs:
-    command: login
-    containerRegistry: pers-reg-dev-eu-krijn
+- script: |
+    docker login -u test -p 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 yourregistry.azurecr.io
+  displayName: 'Log in to Container Registry'
+  env:
+    ACR_TOKEN: $(ACR_TOKEN)
 
 - task: DevcontainersCi@0
   inputs:
