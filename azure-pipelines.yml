@@ -1,0 +1,22 @@
+trigger:
+- main
+
+steps:
+# Replace the username and registry name here with your own details
+# This step also uses an ACR_TOKEN specified as a secret variable
+- task: Docker@2
+  displayName: 'Login to ACR'
+  inputs:
+    command: login
+    containerRegistry: pers-reg-dev-eu-krijn
+
+- task: DevcontainersCi@0
+  inputs:
+    # Change this to point to your image name
+    imageName: 'devcontainer.azurecr.io/example-dev-container'
+    # Change this to be your CI task/script
+    subFolder: python
+    runCmd: 'make ci-build'
+    # sourceBranchFilterForPush allows you to limit which branch's builds
+    # are pushed to the registry
+    sourceBranchFilterForPush: refs/heads/main
