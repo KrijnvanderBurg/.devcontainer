@@ -1,11 +1,11 @@
 // https://containers.dev/implementors/json_reference/
 {
 	"name": "python",
-	"image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-	// "dockerComposeFile": [
-	// 	"./docker-compose.yml"
-	// ],
-	// "service": "app",
+	"dockerComposeFile": [
+		"./docker-compose.yml"
+	],
+	"workspaceFolder": "/workspace",
+	"service": "app",
 	"remoteUser": "vscode",
 	"containerUser": "vscode",
 	//
