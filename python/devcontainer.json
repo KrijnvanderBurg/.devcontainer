@@ -48,12 +48,8 @@
 	},
 	// "onCreateCommand": {},
 	// "updateContentCommand": {},
-	"postCreateCommand": {
-		// "permissions": "sudo chmod -R +x ./" // automatically fix ownership when files are created on host machine
-	},
-	"postStartCommand": {
-        // "zsh": "${workspaceFolder}/.devcontainer/.dotfiles/install.sh" // install dotfiles
-	},
+	// "postCreateCommand": {},
+	// "postStartCommand": {},
 	// "postAttachCommand": {},
 	// "waitFor": "", // default updateContentCommand
 	"customizations": {
