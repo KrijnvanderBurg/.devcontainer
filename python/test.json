@@ -1,0 +1,575 @@
+[
+    {
+        "id": "ghcr.io/devcontainers/features/common-utils:2"
+    },
+    {
+        "id": "ghcr.io/devcontainers/features/git:1"
+    },
+    {
+        "remoteUser": "vscode"
+    },
+    {
+        "id": "ghcr.io/devcontainers/features/docker-outside-of-docker:1",
+        "entrypoint": "/usr/local/share/docker-init.sh",
+        "mounts": [
+            {
+                "source": "/var/run/docker.sock",
+                "target": "/var/run/docker-host.sock",
+                "type": "bind"
+            }
+        ],
+        "customizations": {
+            "vscode": {
+                "extensions": [
+                    "ms-azuretools.vscode-docker"
+                ]
+            }
+        }
+    },
+    {
+        "id": "ghcr.io/devcontainers/features/dotnet:2",
+        "customizations": {
+            "vscode": {
+                "extensions": [
+                    "ms-dotnettools.csharp"
+                ]
+            }
+        }
+    },
+    {
+        "id": "ghcr.io/devcontainers/features/node:1",
+        "customizations": {
+            "vscode": {
+                "extensions": [
+                    "dbaeumer.vscode-eslint"
+                ]
+            }
+        }
+    },
+    {
+        "id": "ghcr.io/devcontainers/features/python:1",
+        "customizations": {
+            "vscode": {
+                "extensions": [
+                    "ms-python.python",
+                    "ms-python.vscode-pylance",
+                    "ms-python.autopep8"
+                ],
+                "settings": {
+                    "python.defaultInterpreterPath": "/usr/local/python/current/bin/python",
+                    "[python]": {
+                        "editor.defaultFormatter": "ms-python.autopep8"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "id": "ghcr.io/devcontainers-contrib/features/poetry:2"
+    },
+    {
+        "postCreateCommand": {},
+        "postStartCommand": {},
+        "customizations": {
+            "vscode": {
+                "extensions": [
+                    "ms-python.vscode-pylance",
+                    "charliermarsh.ruff",
+                    "ms-python.pylint",
+                    "ms-python.flake8",
+                    "ms-python.mypy-type-checker",
+                    "ryanluker.vscode-coverage-gutters",
+                    "nwgh.bandit",
+                    "ms-cst-e.vscode-devskim",
+                    "ms-azuretools.vscode-docker",
+                    "eamodio.gitlens",
+                    "dvirtz.parquet-viewer",
+                    "tamasfe.even-better-toml",
+                    "ms-azure-devops.azuredevops",
+                    "GitHub.copilot",
+                    "GitHub.copilot-chat"
+                ],
+                "settings": {
+                    "editor.tabSize": 4,
+                    "files.eol": "\n",
+                    "extensions.unwantedRecommendations": [
+                        "ms-vscode.makefile-tools"
+                    ],
+                    "terminal.integrated.enableVisualBell": true,
+                    "terminal.integrated.defaultProfile.linux": "zsh",
+                    "terminal.integrated.profiles.linux": {
+                        "zsh": {
+                            "path": "zsh"
+                        }
+                    },
+                    "terminal.integrated.automationProfile.linux": {
+                        "path": "/bin/sh"
+                    },
+                    "git.openRepositoryInParentFolders": "always",
+                    "search.useIgnoreFiles": true,
+                    "search.useParentIgnoreFiles": true,
+                    "[python]": {
+                        "editor.defaultFormatter": "charliermarsh.ruff",
+                        "editor.formatOnSave": true,
+                        "editor.codeActionsOnSave": {
+                            "source.fixAll": "explicit",
+                            "source.organizeImports": "explicit"
+                        }
+                    },
+                    "ruff.lint.args": [
+                        "--config=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+                    ],
+                    "ruff.format.args": [
+                        "--config=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+                    ],
+                    "ruff.organizeImports": true,
+                    "ruff.fixAll": true,
+                    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+                    "python.testing.unittestEnabled": false,
+                    "python.testing.pytestEnabled": true,
+                    "python.testing.pytestArgs": [
+                        "-c",
+                        "${workspaceFolder}/.devcontainer/.dotfiles/pytest.ini",
+                        "-o",
+                        "cache_dir=${workspaceFolder}/.pytest_cache",
+                        "-s",
+                        "--cov=${workspaceFolder}/src/",
+                        "--cov-report=xml:${workspaceFolder}/coverage.xml",
+                        "--cov-config=${workspaceFolder}/.devcontainer/.dotfiles/.coveragerc",
+                        "--junit-xml=${workspaceFolder}/JUNIT-TEST.xml"
+                    ],
+                    "python.languageServer": "Default",
+                    "python.analysis.typeCheckingMode": "strict",
+                    "python.analysis.diagnosticMode": "openFilesOnly",
+                    "python.analysis.diagnosticSeverityOverrides": {
+                        "reportUnknownParameterType": false,
+                        "reportUnknownArgumentType": false,
+                        "reportUnknownVariableType": false,
+                        "reportUnknownMemberType": false,
+                        "reportMissingParameterType": false,
+                        "reportMissingTypeArgument": false,
+                        "reportGeneralTypeIssues": false
+                    },
+                    "python.analysis.completeFunctionParens": true,
+                    "python.analysis.inlayHints.variableType": true,
+                    "python.analysis.inlayHints.functionReturnTypes": true,
+                    "python.analysis.inlayHints.callArgumentName": true,
+                    "python.analysis.inlayHints.pytestParameters": true,
+                    "pylint.args": [
+                        "--rcfile",
+                        "${workspaceFolder}/.devcontainer/.dotfiles/.pylintrc"
+                    ],
+                    "pylint.path": [
+                        "${interpreter}",
+                        "-m",
+                        "pylint"
+                    ],
+                    "pylint.cwd": "${workspaceFolder}",
+                    "pylint.enabled": true,
+                    "pylint.showNotification": "onError",
+                    "pylint.lintOnChange": false,
+                    "flake8.args": [
+                        "--config",
+                        "${containerWorkspaceFolder}/../.tools/v1/configs/.flake8"
+                    ],
+                    "flake8.cwd": "${workspaceFolder}",
+                    "flake8.showNotification": "onError",
+                    "flake8.enabled": true,
+                    "mypy-type-checker.args": [
+                        "--config-file",
+                        "${workspaceFolder}/.devcontainer/.dotfiles/mypy.ini"
+                    ],
+                    "mypy-type-checker.cwd": "${workspaceFolder}",
+                    "mypy-type-checker.enabled": true,
+                    "mypy-type-checker.showNotifications": "onError",
+                    "mypy-type-checker.reportingScope": "file",
+                    "mypy-type-checker.preferDaemon": false,
+                    "bandit.args": [
+                        "-c",
+                        "${workspaceFolder}/.devcontainer/.dotfiles/.bandit"
+                    ],
+                    "bandit.cwd": "${workspaceFolder}",
+                    "bandit.logLevel": "warning",
+                    "bandit.enabled": true,
+                    "bandit.showNotification": "onError",
+                    "autoDocstring.docstringFormat": "google",
+                    "autoDocstring.generateDocstringOnEnter": true,
+                    "autoDocstring.includeName": false,
+                    "autoDocstring.startOnNewLine": true,
+                    "autoDocstring.guessTypes": true,
+                    "autoDocstring.quoteStyle": "\"\"\"",
+                    "tasks": {
+                        "version": "2.0.0",
+                        "options": {
+                            "env": {}
+                        },
+                        "tasks": [
+                            {
+                                "label": "git clean",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/git_clean.sh",
+                                "runOptions": {
+                                    "runOn": "default"
+                                },
+                                "presentation": {
+                                    "clear": true,
+                                    "showReuseMessage": false
+                                },
+                                "group": "environment",
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "coverage-gutters watch",
+                                "presentation": {
+                                    "reveal": "never"
+                                },
+                                "command": [
+                                    "${command:coverage-gutters.watchCoverageAndVisibleEditors}"
+                                ],
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "all",
+                                "dependsOn": [
+                                    "build",
+                                    "test"
+                                ],
+                                "dependsOrder": "sequence",
+                                "runOptions": {
+                                    "runOn": "folderOpen"
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "build",
+                                "dependsOn": [
+                                    "install package",
+                                    "sphinx build docs"
+                                ],
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "build package",
+                                "type": "shell",
+                                "command": "poetry",
+                                "args": [
+                                    "build",
+                                    "--output",
+                                    "./dist/"
+                                ],
+                                "presentation": {
+                                    "showReuseMessage": false
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "install package",
+                                "type": "shell",
+                                "command": "pip",
+                                "args": [
+                                    "install",
+                                    "./dist/*.whl",
+                                    "--force-reinstall"
+                                ],
+                                "dependsOn": [
+                                    "build package"
+                                ],
+                                "presentation": {
+                                    "panel": "shared"
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "sphinx build docs",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/sphinx.sh",
+                                "args": [
+                                    "--docs_dirpath=${workspaceFolder}/docs/"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                }
+                            },
+                            {
+                                "label": "test",
+                                "dependsOn": [
+                                    "ruff formatter",
+                                    "black",
+                                    "isort",
+                                    "ruff linter",
+                                    "pylint",
+                                    "flake8",
+                                    "mypy",
+                                    "pyre",
+                                    "pyright",
+                                    "trufflehog",
+                                    "bandit",
+                                    "semgrep",
+                                    "devskim",
+                                    "graudit",
+                                    "vulture",
+                                    "ossaudit",
+                                    "pytest and coverage"
+                                ],
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "ruff formatter",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/ruff_formatter.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "black",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/black.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}/",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.black"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "isort",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/isort.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.isort.cfg"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "ruff linter",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/ruff_linter.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "pylint",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/pylint.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.pylintrc"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "flake8",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/flake8.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.flake8"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "mypy",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/mypy.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/mypy.ini"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "pyre",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/pyre.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": [],
+                                "cwd": "${workspaceFolder}/.devcontainer/.dotfiles/"
+                            },
+                            {
+                                "label": "pyright",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/pyright.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/pyrightconfig.json"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "trufflehog",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/trufflehog.sh",
+                                "args": [
+                                    "--target_path=file://${workspaceFolder}/../",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/trufflehog.toml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "bandit",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/bandit.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.bandit"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "semgrep",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/semgrep.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/semgrep.yaml",
+                                    "--output_filepath=${workspaceFolder}/semgrep-junit.xml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "vulture",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/vulture.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/vulture.toml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "devskim",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/devskim.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}/src/",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/devskim.json"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "graudit",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/graudit.sh",
+                                "args": [
+                                    "--target_path=${workspaceFolder}/src/"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "ossaudit",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/ossaudit.sh",
+                                "args": [
+                                    "--temp_dirpath=${workspaceFolder}/${PROJECT_TEMP_DIR}",
+                                    "--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ossaudit.yaml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            },
+                            {
+                                "label": "pytest and coverage",
+                                "type": "shell",
+                                "command": "${workspaceFolder}/../.tools/v1/commands/pytest_and_coverage.sh",
+                                "args": [
+                                    "--tests_path=${workspaceFolder}/tests/unit/",
+                                    "--coverage_path=${workspaceFolder}/src/",
+                                    "--config_filepath_pytest=${workspaceFolder}/.devcontainer/.dotfiles/pytest.ini",
+                                    "--config_filepath_coverage=${workspaceFolder}/.devcontainer/.dotfiles/.coveragerc",
+                                    "--output_coverage_filepath=${workspaceFolder}/coverage.xml",
+                                    "--output_junit_filepath=${workspaceFolder}/JUNIT-TEST.xml"
+                                ],
+                                "presentation": {
+                                    "panel": "dedicated",
+                                    "clear": true
+                                },
+                                "problemMatcher": []
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "containerEnv": {
+            "PYTHONFAULTHANDLER": "1",
+            "PYTHONUNBUFFERED": "1",
+            "PYTHONHASHSEED": "42",
+            "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+            "POETRY_VIRTUALENVS_CREATE": "false",
+            "PROJECT_TEMP_DIR": "temp"
+        },
+        "containerUser": "vscode",
+        "remoteUser": "vscode"
+    }
+]
