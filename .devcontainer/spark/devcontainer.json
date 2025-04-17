@@ -9,7 +9,41 @@
                 "vscjava.vscode-java-pack",
                 "ms-python.python",
                 "redhat.vscode-yaml"
-            ]
+            ],
+            "openFiles": [
+                {
+                    "file": "/workspace/README.md",
+                    "active": true
+                }
+            ],
+            "settings": {
+                "tasks": {
+                    "version": "2.0.0",
+                    "tasks": [
+                        {
+                            "label": "Run Spark Job",
+                            "type": "shell",
+                            "command": "/opt/spark/bin/spark-submit",
+                            "args": [
+                                "--master", "spark://spark-master:7077",
+                                "--deploy-mode", "client",
+                                "--conf", "spark.driver.host=devcontainer",
+                                "--conf", "spark.driver.bindAddress=0.0.0.0",
+                                "jobbie.py"
+                            ],
+                                "group": {
+                                "kind": "build",
+                                "isDefault": true
+                            },
+                                "presentation": {
+                                "reveal": "always",
+                                "panel": "new"
+                            },
+                            "problemMatcher": []
+                        }
+                    ]
+                }
+            }
         }
     }
 }
