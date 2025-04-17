@@ -1,0 +1,17 @@
+{
+    "name": "Spark Development Environment",
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "dev-environment",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "ms-python.python",
+                "redhat.vscode-yaml"
+            ]
+        }
+    },
+    "forwardPorts": [4040, 8080, 7077],
+    "remoteUser": "root"
+}
