@@ -1,4 +1,5 @@
-FROM python:3.10-bullseye
+ARG PYTHON_VERSION=3.10
+FROM python:${PYTHON_VERSION}-bullseye
 
 # Install Java and other dependencies
 RUN apt-get update && \
@@ -11,8 +12,14 @@ RUN apt-get update && \
 
 # Set environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-ENV SPARK_VERSION=3.5.5
-ENV HADOOP_VERSION=3
+
+# Arguments for Spark setup
+ARG SPARK_VERSION=3.5.5
+ARG HADOOP_VERSION=3
+
+# Set Spark environment variables
+ENV SPARK_VERSION=${SPARK_VERSION}
+ENV HADOOP_VERSION=${HADOOP_VERSION}
 ENV SPARK_HOME=/opt/spark
 ENV PATH=$PATH:$SPARK_HOME/bin
 

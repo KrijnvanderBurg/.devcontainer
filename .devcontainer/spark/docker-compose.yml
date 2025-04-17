@@ -2,11 +2,9 @@ version: '3.4'
 
 # Worker template that will be reused
 x-spark-worker-template: &spark-worker-template
-  image: apache/spark:3.5.5
-  command: "/opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077"
+  image: apache/spark:${SPARK_VERSION}
+  command: "/opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:${SPARK_MASTER_PORT}"
   environment:
-    - SPARK_WORKER_CORES=1
-    - SPARK_WORKER_MEMORY=1G
     - SPARK_PUBLIC_DNS=localhost
     - SPARK_LOCAL_IP=0.0.0.0
   volumes:
@@ -21,10 +19,14 @@ x-spark-worker-template: &spark-worker-template
   restart: unless-stopped
 
 services:
-  dev-environment:
+  devcontainer:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        - SPARK_VERSION=${SPARK_VERSION}
+        - HADOOP_VERSION=3
+        - PYTHON_VERSION=${PYTHON_VERSION}
     volumes:
       - .:/workspace
     networks:
@@ -37,18 +39,18 @@ services:
       - SPARK_PUBLIC_DNS=localhost
 
   spark-master:
-    image: apache/spark:3.5.5
+    image: apache/spark:${SPARK_VERSION}
     command: "/opt/spark/bin/spark-class org.apache.spark.deploy.master.Master"
     hostname: spark-master
     environment:
       - SPARK_MASTER_HOST=spark-master
-      - SPARK_MASTER_PORT=7077
-      - SPARK_MASTER_WEBUI_PORT=8080
+      - SPARK_MASTER_PORT=${SPARK_MASTER_PORT}
+      - SPARK_MASTER_WEBUI_PORT=${SPARK_MASTER_WEBUI_PORT}
       - SPARK_PUBLIC_DNS=localhost
       - SPARK_LOCAL_IP=0.0.0.0
     ports:
-      - "8080:8080"   # Web UI
-      - "7077:7077"   # Spark master port
+      - "${SPARK_MASTER_WEBUI_PORT}:${SPARK_MASTER_WEBUI_PORT}"   # Web UI
+      - "${SPARK_MASTER_PORT}:${SPARK_MASTER_PORT}"   # Spark master port
     volumes:
       - spark-logs:/opt/spark/logs
       - spark-events:/opt/spark/events
@@ -57,7 +59,7 @@ services:
     networks:
       - spark-network
     depends_on:
-      - dev-environment
+      - devcontainer
     restart: unless-stopped
 
   # Worker 1 inherits from template
@@ -65,39 +67,39 @@ services:
     <<: *spark-worker-template
     hostname: spark-worker-1
     environment:
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_WORKER_WEBUI_PORT=8081
+      - SPARK_WORKER_CORES=${SPARK_WORKER1_CORES}
+      - SPARK_WORKER_MEMORY=${SPARK_WORKER1_MEMORY}
+      - SPARK_WORKER_WEBUI_PORT=${SPARK_WORKER1_WEBUI_PORT}
       - SPARK_PUBLIC_DNS=localhost
       - SPARK_LOCAL_IP=0.0.0.0
       - SPARK_WORKER_HOST=localhost
     ports:
-      - "8081:8081"   # Worker 1 UI
+      - "${SPARK_WORKER1_WEBUI_PORT}:${SPARK_WORKER1_WEBUI_PORT}"   # Worker 1 UI
 
   # Worker 2 inherits from template
   spark-worker-2:
     <<: *spark-worker-template
     hostname: spark-worker-2
     environment:
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_WORKER_WEBUI_PORT=8082
+      - SPARK_WORKER_CORES=${SPARK_WORKER2_CORES}
+      - SPARK_WORKER_MEMORY=${SPARK_WORKER2_MEMORY}
+      - SPARK_WORKER_WEBUI_PORT=${SPARK_WORKER2_WEBUI_PORT}
       - SPARK_PUBLIC_DNS=localhost
       - SPARK_LOCAL_IP=0.0.0.0
       - SPARK_WORKER_HOST=localhost
     ports:
-      - "8082:8082"   # Worker 2 UI
+      - "${SPARK_WORKER2_WEBUI_PORT}:${SPARK_WORKER2_WEBUI_PORT}"   # Worker 2 UI
 
   # History server has no dependencies - keeps running independently
   spark-history-server:
-    image: apache/spark:3.5.5
+    image: apache/spark:${SPARK_VERSION}
     command: "/opt/spark/bin/spark-class org.apache.spark.deploy.history.HistoryServer"
     hostname: spark-history
     environment:
       - SPARK_PUBLIC_DNS=localhost
       - SPARK_LOCAL_IP=0.0.0.0
     ports:
-      - "18080:18080"   # History UI
+      - "${SPARK_HISTORY_WEBUI_PORT}:${SPARK_HISTORY_WEBUI_PORT}"   # History UI
     volumes:
       - spark-logs:/opt/spark/logs
       - spark-events:/opt/spark/events
