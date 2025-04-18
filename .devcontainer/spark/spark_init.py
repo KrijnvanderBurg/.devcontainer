@@ -3,7 +3,6 @@ Spark auto-initialization script for Jupyter notebooks.
 This script runs automatically when a notebook kernel starts.
 """
 
-import os
 import sys
 
 # For cleaner output, only show warnings and errors
@@ -22,6 +21,9 @@ spark = SparkSession.builder \
     .config("spark.driver.host", "devcontainer") \
     .config("spark.driver.bindAddress", "0.0.0.0") \
     .config("spark.ui.port", "4040") \
+    .config("spark.dynamicAllocation.enabled", "false") \
+    .config("spark.scheduler.mode", "FAIR") \
+    .config("spark.python.worker.reuse", "true") \
     .getOrCreate()
 
 # Create a SparkContext variable for backward compatibility
@@ -35,3 +37,7 @@ print(f"SparkSession successfully initialized!", file=sys.stderr)
 print(f"Spark version: {spark.version}", file=sys.stderr)
 print(f"Using {sc.defaultParallelism} cores by default", file=sys.stderr)
 print("Spark Web UI available at http://localhost:4040", file=sys.stderr)
+
+# Print connection information to help with debugging
+print(f"Connected to Spark master: {sc.master}", file=sys.stderr)
+print(f"Application ID: {sc.applicationId}", file=sys.stderr)
