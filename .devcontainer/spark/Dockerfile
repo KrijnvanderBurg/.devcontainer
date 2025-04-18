@@ -29,13 +29,20 @@ RUN wget -q https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-$
     mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
     rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
-# Install Python dependencies
+# Install Python dependencies including Jupyter
 RUN pip install --no-cache-dir \
     pyspark==${SPARK_VERSION} \
-    numpy \
-    pandas \
-    matplotlib \
-    jupyter
+    jupyter \
+    jupyterlab \
+    ipykernel \
+    findspark
+
+# Set up a Jupyter kernel with auto Spark initialization
+RUN python -m ipykernel install --name pyspark --display-name "PySpark" && \
+    mkdir -p /root/.ipython/profile_default/startup/
+
+# Create startup script for auto Spark initialization
+COPY spark_init.py /root/.ipython/profile_default/startup/00-spark-init.py
 
 WORKDIR /workspace
 

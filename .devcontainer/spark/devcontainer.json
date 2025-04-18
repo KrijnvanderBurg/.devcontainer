@@ -6,36 +6,41 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "vscjava.vscode-java-pack",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.datawrangler",
                 "ms-python.python",
-                "redhat.vscode-yaml"
-            ],
-            "openFiles": [
-                {
-                    "file": "/workspace/README.md",
-                    "active": true
-                }
+                "ms-python.vscode-pylance"
             ],
             "settings": {
+                // Markdown files open in preview mode
+                "workbench.editorAssociations": {   
+                    "*.md": "vscode.markdown.preview.editor"
+                },
+                // Jupyter settings
+                "jupyter.interactiveWindow.textEditor.executeSelection": true,
+                "jupyter.notebookFileRoot": "${workspaceFolder}",
+                "jupyter.kernelSpecConnectionMetadata": [
+                    {
+                        "kernelspec": {
+                            "name": "pyspark",
+                            "display_name": "PySpark"
+                        }
+                    }
+                ],
+                // VSCode Tasks
                 "tasks": {
                     "version": "2.0.0",
                     "tasks": [
+                        // Ctrl+Shift+B to run this task
                         {
                             "label": "Run Spark Job",
                             "type": "shell",
-                            "command": "/opt/spark/bin/spark-submit",
-                            "args": [
-                                "--master", "spark://spark-master:7077",
-                                "--deploy-mode", "client",
-                                "--conf", "spark.driver.host=devcontainer",
-                                "--conf", "spark.driver.bindAddress=0.0.0.0",
-                                "jobbie.py"
-                            ],
-                                "group": {
+                            "command": "${workspaceFolder}/spark-submit.sh ${file}",
+                            "group": {
                                 "kind": "build",
                                 "isDefault": true
                             },
-                                "presentation": {
+                            "presentation": {
                                 "reveal": "always",
                                 "panel": "new"
                             },
@@ -45,5 +50,23 @@
                 }
             }
         }
-    }
+    },
+    "postCreateCommand": "ipython kernel install --user --name=pyspark --display-name='PySpark'"
 }
+//
+// Predefined Variables
+//
+// ${cwd} - the task runner's current working directory on startup
+// ${workspaceFolder} - the path of the folder opened in VS Code
+// ${workspaceRootFolderName} - the name of the folder opened in VS Code without any slashes (/)
+// ${workspaceFolderBasename} - the name of the folder opened in VS Code without any slashes (/)
+// ${file} - the current opened file
+// ${relativeFile} - the current opened file relative to workspaceFolder
+// ${relativeFileDirname} - the current opened file's dirname relative to workspaceFolder
+// ${fileBasename} - the current opened file's basename
+// ${fileBasenameNoExtension} - the current opened file's basename with no file extension
+// ${fileDirname} - the current opened file's dirname
+// ${fileExtname} - the current opened file's extension
+// ${lineNumber} - the current selected line number in the active file
+// ${selectedText} - the current selected text in the active file
+// ${execPath} - the path to the running VS Code executable
