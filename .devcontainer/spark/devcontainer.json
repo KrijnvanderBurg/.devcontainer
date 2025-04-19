@@ -27,6 +27,7 @@
                         }
                     }
                 ],
+                
                 // VSCode Tasks
                 "tasks": {
                     "version": "2.0.0",
