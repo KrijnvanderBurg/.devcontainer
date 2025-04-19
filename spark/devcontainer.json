@@ -36,7 +36,7 @@
                         {
                             "label": "spar-submit current file",
                             "type": "shell",
-                            "command": "${workspaceFolder}/spark-submit.sh ${file}",
+                            "command": "${workspaceFolder}/.devcontainer/spark/spark-submit.sh ${file}",
                             "group": {
                                 "kind": "build",
                                 "isDefault": true
