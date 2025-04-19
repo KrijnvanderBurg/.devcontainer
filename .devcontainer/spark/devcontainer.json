@@ -33,7 +33,7 @@
                     "tasks": [
                         // Ctrl+Shift+B to run this task
                         {
-                            "label": "Run Spark Job",
+                            "label": "spar-submit current file",
                             "type": "shell",
                             "command": "${workspaceFolder}/spark-submit.sh ${file}",
                             "group": {
@@ -50,8 +50,7 @@
                 }
             }
         }
-    },
-    "postCreateCommand": "ipython kernel install --user --name=pyspark --display-name='PySpark'"
+    }
 }
 //
 // Predefined Variables

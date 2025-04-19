@@ -43,6 +43,9 @@ RUN python -m ipykernel install --name pyspark --display-name "PySpark" && \
 # Create startup script for auto Spark initialization
 COPY spark_init.py /root/.ipython/profile_default/startup/00-spark-init.py
 
+# Create a Jupyter kernel for PySpark
+RUN ipython kernel install --user --name=pyspark --display-name='PySpark'
+
 WORKDIR /workspace
 
 CMD ["sleep", "infinity"]
