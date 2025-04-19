@@ -1,10 +1,10 @@
 {
-    "name": "lakehouse",
+    "name": "OpenTofu",
     "dockerComposeFile": [
         "./docker-compose.yml"
     ],
     "service": "app",
-    "workspaceFolder": "/workspace/lakehouse",
+    "workspaceFolder": "/workspace",
     "remoteUser": "vscode",
     "containerUser": "vscode",
     //

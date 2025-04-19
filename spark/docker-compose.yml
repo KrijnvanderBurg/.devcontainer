@@ -11,7 +11,7 @@ x-spark-worker-template: &spark-worker-template
     - spark-logs:/opt/spark/logs
     - spark-events:/opt/spark/events
     - ./spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
-    - .:/workspace
+    - ../../:/workspace
   networks:
     - spark-network
   depends_on:
@@ -28,7 +28,7 @@ services:
         - HADOOP_VERSION=3
         - PYTHON_VERSION=${PYTHON_VERSION}
     volumes:
-      - .:/workspace
+      - ../../:/workspace
     networks:
       - spark-network
     ports:
@@ -56,7 +56,7 @@ services:
       - spark-logs:/opt/spark/logs
       - spark-events:/opt/spark/events
       - ./spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
-      - .:/workspace
+      - ../../:/workspace
     networks:
       - spark-network
     depends_on:
