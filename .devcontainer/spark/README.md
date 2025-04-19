@@ -1,71 +1,91 @@
-# Spark Development Container
+# Spark Development Environment
 
-This development environment provides a complete Apache Spark cluster setup with automatic notebook integration.
-
-## Quick Start
-
-1. Open any Jupyter notebook (`.ipynb` file) in VS Code
-2. A SparkSession named `spark` is automatically initialized and available in all notebooks
-3. The SparkContext `sc` is also available
-4. Run notebooks as usual - they will automatically connect to the Spark cluster
+A complete Apache Spark development environment using VS Code DevContainers. This setup provides a fully configured Spark cluster with master, workers, and history server running in Docker containers.
 
 ## Features
 
-- Automatic Spark connection in all notebooks
-- Web UIs:host
-  - Spark Application UI: http://localhost:4040 (when running jobs)
-  - Spark Master UI: http://localhost:8080
-  - History Server: http://localhost:18080
+- 🚀 Complete Spark cluster (easily configurable via `.env` file)
+- 🐍 Python environment with PySpark
+- 📊 Jupyter notebook integration with pre-configured Spark session
+- 🧰 VS Code tasks for one-click Spark job submission
+- 🔍 Web UIs for monitoring Spark clusters and jobs
+- 🔄 Persistent event logs and history server
 
-## Running PySpark Jobs
+## Prerequisites
 
-You can run PySpark scripts using the `spark-submit.sh` script:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed
 
-## Examples
+## Getting Started
 
-Here are some examples of how to use the Spark development container:
+1. **Add the Spark DevContainer to your project**:
+   - Copy the entire `spark` folder to your project's root directory.
+   - Ensure the structure is `.devcontainer/*` or if you have multiple devcontainers `.devcontainer/spark/*` with all the files in this repo
 
-### Example 1: Running a PySpark Job
+2. **Open the project in VS Code**
 
-1. Create a PySpark script, for example `example.py`:
-    ```python
-    from pyspark.sql import SparkSession
+3. **Build and start the DevContainer**:
+   - Press `F1` to open the command palette
+   - Type and select `Dev Containers: Rebuild and Reopen in Container`
+   - VS Code will build the Docker images and start the containers defined in `docker-compose.yml`
+   - This process may take several minutes the first time
 
-    spark = SparkSession.builder.appName("example").getOrCreate()
+4. **Once the container is running, you're ready to develop with Spark!**
 
-    data = [("Alice", 1), ("Bob", 2), ("Cathy", 3)]
-    df = spark.createDataFrame(data, ["name", "value"])
+> **Note**: This DevContainer focuses exclusively on providing a Spark environment. If you need a full Python development environment with additional tools like linters, formatters, etc., check out the [Python DevContainer](../python/README.md). You can combine elements from both DevContainers based on your needs.
 
-    df.show()
-    ```
+## Working with Pyspark
 
-2. Run the script using the `spark-submit.sh` script:
-    ```sh
-    ./spark-submit.sh example.py
-    ```
+```python
+from pyspark.sql import SparkSession
 
-### Example 2: Using Spark in a Jupyter Notebook
+# Initialize Spark
+spark = SparkSession.builder.appName("Simple PySpark Demo").getOrCreate()
 
-1. Open a Jupyter notebook in VS Code.
-2. Use the following code to create a DataFrame and show its contents:
-    ```python
-    data = [("Alice", 1), ("Bob", 2), ("Cathy", 3)]
-    df = spark.createDataFrame(data, ["name", "value"])
+df = spark.createDataFrame([(1, "John"), (2, "Jane")], ["id", "name"])
+df.show()
+```
 
-    df.show()
-    ```
+### Submitting Spark Jobs
 
-## Troubleshooting
+**Using VS Code Task (Recommended)**
+- Open your Spark job Python file
+- Press `Ctrl+Shift+B` to run the default task
+- This will submit the current file to the Spark cluster
 
-### Issue: Spark UI not accessible
+**Using the Terminal**
+```bash
+./spark-submit.sh /path/to/your/spark_job.py
+```
 
-- Ensure that the Spark cluster is running.
-- Check if the ports (4040, 8080, 18080) are not being used by other applications.
+## Working with Jupyter Notebooks
+The environment includes auto-initialization for Jupyter notebooks with the `spark_init.py` script, spark object already exists for immediate usage:
 
-### Issue: PySpark job fails to run
+```python
+# Just start using the pre-configured spark session
+df = spark.createDataFrame([(1, "John"), (2, "Jane")], ["id", "name"])
+df.show()
+```
 
-- Verify that the `spark-submit.sh` script has execute permissions:
-    ```sh
-    chmod +x spark-submit.sh
-    ```
-- Check the script for syntax errors or missing dependencies.
+## Accessing Web UIs
+- Spark Master: http://localhost:8080
+- Worker 1: http://localhost:8081
+- Worker 2: http://localhost:8082
+- History Server: http://localhost:18080
+- Application UI: http://localhost:4040 (while job is running)
+
+## Configuration
+Easily customize the environment by editing the .env file:
+
+```ini
+# Adjust Spark and Python versions
+SPARK_VERSION=3.5.5
+PYTHON_VERSION=3.11
+
+## Configure worker resources
+SPARK_WORKER1_CORES=2
+SPARK_WORKER1_MEMORY=2G
+SPARK_WORKER2_CORES=2
+SPARK_WORKER2_MEMORY=2G
+...
+```
