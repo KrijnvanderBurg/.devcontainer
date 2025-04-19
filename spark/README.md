@@ -1,9 +1,7 @@
 # Spark Development Environment
-
 A complete Apache Spark development environment using VS Code DevContainers. This setup provides a fully configured Spark cluster with master, workers, and history server running in Docker containers.
 
 ## Features
-
 - 🚀 Complete Spark cluster (easily configurable via `.env` file)
 - 🐍 Python environment with PySpark
 - 📊 Jupyter notebook integration with pre-configured Spark session
@@ -11,31 +9,9 @@ A complete Apache Spark development environment using VS Code DevContainers. Thi
 - 🔍 Web UIs for monitoring Spark clusters and jobs
 - 🔄 Persistent event logs and history server
 
-## Prerequisites
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed
-
-## Getting Started
-
-1. **Add the Spark DevContainer to your project**:
-   - Copy the entire `spark` folder to your project's root directory.
-   - Ensure the structure is `.devcontainer/*` or if you have multiple devcontainers `.devcontainer/spark/*` with all the files in this repo
-
-2. **Open the project in VS Code**
-
-3. **Build and start the DevContainer**:
-   - Press `F1` to open the command palette
-   - Type and select `Dev Containers: Rebuild and Reopen in Container`
-   - VS Code will build the Docker images and start the containers defined in `docker-compose.yml`
-   - This process may take several minutes the first time
-
-4. **Once the container is running, you're ready to develop with Spark!**
-
 > **Note**: This DevContainer focuses exclusively on providing a Spark environment. If you need a full Python development environment with additional tools like linters, formatters, etc., check out the [Python DevContainer](../python/README.md). You can combine elements from both DevContainers based on your needs.
 
 ## Working with Pyspark
-
 ```python
 from pyspark.sql import SparkSession
 
@@ -47,7 +23,6 @@ df.show()
 ```
 
 ### Submitting Spark Jobs
-
 **Using VS Code Task (Recommended)**
 - Open your Spark job Python file
 - Press `Ctrl+Shift+B` to run the default task
