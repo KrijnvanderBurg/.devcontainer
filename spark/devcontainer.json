@@ -34,7 +34,7 @@
                     "tasks": [
                         // Ctrl+Shift+B to run this task
                         {
-                            "label": "spar-submit current file",
+                            "label": "spark-submit current file",
                             "type": "shell",
                             "command": "${workspaceFolder}/.devcontainer/spark/spark-submit.sh ${file}",
                             "group": {
