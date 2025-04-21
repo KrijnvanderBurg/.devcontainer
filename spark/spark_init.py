@@ -4,18 +4,17 @@ This script runs automatically when a notebook kernel starts.
 """
 
 import sys
-
-# For cleaner output, only show warnings and errors
 import logging
+
+from pyspark.sql import SparkSession
+
+
 logging.basicConfig(level=logging.WARN)
 
 print("Initializing Spark session...", file=sys.stderr)
 
-# Initialize Spark
-from pyspark.sql import SparkSession
-
 # Build the SparkSession with sensible defaults for notebook usage
-spark = SparkSession.builder \
+spark = SparkSession.Builder() \
     .appName("Jupyter Notebook") \
     .master("spark://spark-master:7077") \
     .config("spark.driver.host", "devcontainer") \

@@ -11,6 +11,13 @@ A complete Apache Spark development environment using VS Code DevContainers. Thi
 
 > **Note**: This DevContainer focuses exclusively on providing a Spark environment. If you need a full Python development environment with additional tools like linters, formatters, etc., check out the [Python DevContainer](../python/README.md). You can combine elements from both DevContainers based on your needs.
 
+## Usage: Build and start the DevContainer
+1. Add this spark folder as `.devcontainer/spark/*`or `.devcontainer/*` in your project root.
+2. Press `F1` to open the command palette.
+3.  Type and select `Dev Containers: Rebuild and Reopen in Container`.
+4. VS Code will build the Docker images and start the containers defined in `docker-compose.yml`.
+5. The build process may take several minutes the first time.
+
 ## Architecture
 ![Architecture Diagram](./design.drawio.png)
 

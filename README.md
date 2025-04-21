@@ -1,6 +1,8 @@
 # .devcontainer
 This repository contains several specialized DevContainers for different development environments. It's designed to be included as a Git submodule in your projects.
 
+> **Note**: The `.devcontainer` folder might be invisible in some file explorers due to the leading dot (`.`) in its name. Ensure your file explorer is configured to show hidden files and folders.
+
 ## Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
 - [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed

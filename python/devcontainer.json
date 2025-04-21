@@ -131,12 +131,7 @@
 				// `--config` flag must either be a path to a `.toml` configuration file or ...`
 				// It should have been fixed but it still happens for me. 
 				// https://github.com/astral-sh/ruff-vscode/issues/413
-				"ruff.lint.args": [
-					"--config=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
-				],
-				"ruff.format.args": [
-					"--config=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
-				],
+				"ruff.configuration": "${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml",
 				"ruff.organizeImports": true,
 				"ruff.fixAll": true,
 				//
@@ -303,7 +298,7 @@
 						{
 							"label": "git clean",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/git_clean.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/git_clean.sh",
 							"runOptions": {
 								"runOn": "default"
 							},
@@ -345,9 +340,8 @@
 						{
 							"label": "build",
 							"dependsOn": [
-								"install package",
+								"install package"
 								// "poetry install",
-								"sphinx build docs"
 							],
 							"problemMatcher": []
 						},
@@ -417,9 +411,9 @@
 						{
 							"label": "sphinx build docs",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/sphinx.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/sphinx.sh",
 							"args": [
-								"--docs_dirpath=${workspaceFolder}/docs/"
+								"${workspaceFolder}/docs/" // docs dirpath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -433,6 +427,7 @@
 							"label": "test",
 							"dependsOn": [
 								// "coverage-gutters watch",
+								"sphinx build docs",
 								"ruff formatter",
 								"black",
 								"isort",
@@ -458,10 +453,10 @@
 						{
 							"label": "ruff formatter",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/ruff_formatter.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/ruff_formatter.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -472,10 +467,10 @@
 						{
 							"label": "black",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/black.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/black.sh",
 							"args": [
-								"--target_path=${workspaceFolder}/",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.black"
+								"${workspaceFolder}/", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.black" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -486,10 +481,10 @@
 						{
 							"label": "isort",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/isort.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/isort.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.isort.cfg"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.isort.cfg" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -500,10 +495,10 @@
 						{
 							"label": "ruff linter",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/ruff_linter.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/ruff_linter.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/ruff.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -514,10 +509,10 @@
 						{
 							"label": "pylint",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/pylint.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/pylint.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.pylintrc"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.pylintrc" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -528,10 +523,10 @@
 						{
 							"label": "flake8",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/flake8.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/flake8.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.flake8"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.flake8" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -542,10 +537,10 @@
 						{
 							"label": "mypy",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/mypy.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/mypy.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/mypy.ini"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/mypy.ini" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -556,9 +551,10 @@
 						{
 							"label": "pyre",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/pyre.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/pyre.sh",
 							"args": [
-								"--target_path=${workspaceFolder}"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.pyre_configuration" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -570,10 +566,10 @@
 						{
 							"label": "pyright",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/pyright.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/pyright.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/pyrightconfig.json"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/pyrightconfig.json" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -584,10 +580,10 @@
 						{
 							"label": "trufflehog",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/trufflehog.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/trufflehog.sh",
 							"args": [
-								"--target_path=file://${workspaceFolder}/../",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/trufflehog.toml"
+								"file://${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/trufflehog.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -598,10 +594,10 @@
 						{
 							"label": "bandit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/bandit.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/bandit.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/.bandit"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/.bandit" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -612,11 +608,11 @@
 						{
 							"label": "semgrep",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/semgrep.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/semgrep.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/semgrep.yaml",
-								"--output_filepath=${workspaceFolder}/semgrep-junit.xml"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/semgrep.yaml", // config filepath
+								"${workspaceFolder}/semgrep-junit.xml" // output filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -627,10 +623,10 @@
 						{
 							"label": "vulture",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/vulture.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/vulture.sh",
 							"args": [
-								"--target_path=${workspaceFolder}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/vulture.toml"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/vulture.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -641,10 +637,10 @@
 						{
 							"label": "devskim",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/devskim.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/devskim.sh",
 							"args": [
-								"--target_path=${workspaceFolder}/src/",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/devskim.json"
+								"${workspaceFolder}/src/", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/devskim.json" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -655,9 +651,9 @@
 						{
 							"label": "graudit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/graudit.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/graudit.sh",
 							"args": [
-								"--target_path=${workspaceFolder}/src/"
+								"${workspaceFolder}/src/" // target dirpath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -668,10 +664,10 @@
 						{
 							"label": "ossaudit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/ossaudit.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/ossaudit.sh",
 							"args": [
-								"--temp_dirpath=${workspaceFolder}/${PROJECT_TEMP_DIR}",
-								"--config_filepath=${workspaceFolder}/.devcontainer/.dotfiles/ossaudit.yaml"
+								"${workspaceFolder}", // target dirpath
+								"${workspaceFolder}/.devcontainer/.dotfiles/ossaudit.yaml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -682,14 +678,14 @@
 						{
 							"label": "pytest and coverage",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.tools/scripts/run/commands/pytest_and_coverage.sh",
+							"command": "${workspaceFolder}/.devcontainer/.dotfiles/scripts/pytest_and_coverage.sh",
 							"args": [
-								"--tests_path=${workspaceFolder}/tests/unit/",
-								"--coverage_path=${workspaceFolder}/src/",
-								"--config_filepath_pytest=${workspaceFolder}/.devcontainer/.dotfiles/pytest.ini",
-								"--config_filepath_coverage=${workspaceFolder}/.devcontainer/.dotfiles/.coveragerc",
-								"--output_coverage_filepath=${workspaceFolder}/coverage.xml",
-								"--output_junit_filepath=${workspaceFolder}/JUNIT-TEST.xml"
+								"${workspaceFolder}/tests/unit/",
+								"${workspaceFolder}/src/",
+								"${workspaceFolder}/.devcontainer/.dotfiles/pytest.ini",
+								"${workspaceFolder}/.devcontainer/.dotfiles/.coveragerc",
+								"${workspaceFolder}/coverage.xml",
+								"${workspaceFolder}/JUNIT-TEST.xml"
 							],
 							"presentation": {
 								"panel": "dedicated",
