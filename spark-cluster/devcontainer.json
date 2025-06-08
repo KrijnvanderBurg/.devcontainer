@@ -1,5 +1,5 @@
 {
-    "name": "Spark Development Environment",
+    "name": "spark cluster",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
