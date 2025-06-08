@@ -1,13 +1,11 @@
 """
 Spark auto-initialization script for Jupyter notebooks.
-This script runs automatically when a notebook kernel starts.
-"""
+This script runs automatically when a notebook kernel starts."""
 
-import sys
 import logging
+import sys
 
 from pyspark.sql import SparkSession
-
 
 logging.basicConfig(level=logging.WARN)
 

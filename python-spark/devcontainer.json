@@ -19,18 +19,18 @@
 			"installTools": false,
 			"toolsToInstall": "" // set installTools to true again
 		},
-		"ghcr.io/devcontainers-contrib/features/poetry:2": {
+		"ghcr.io/devcontainers-extra/features/poetry:2": {
 			"version": "latest"
 		},
-		// NodeJS only necessary for SonarLint extension, specifically to analyse .json files.
-		// NoseJS can be safely removed, it only results in a pop-up error from sonarlint saying it cannot review .json files without nodejs.
-		"ghcr.io/devcontainers/features/node:1": {
-			"version": "latest"
-		},
-		// dotnet only required for DevSkim code quality tool.
-		"ghcr.io/devcontainers/features/dotnet:2": {
-			"version": "8.0"
-		},
+		// // NodeJS only necessary for SonarLint extension, specifically to analyse .json files.
+		// // NoseJS can be safely removed, it only results in a pop-up error from sonarlint saying it cannot review .json files without nodejs.
+		// "ghcr.io/devcontainers/features/node:1": {
+		// 	"version": "latest"
+		// },
+		// // dotnet only required for DevSkim code quality tool.
+		// "ghcr.io/devcontainers/features/dotnet:2": {
+		// 	"version": "8.0"
+		// },
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	},
 	//
@@ -340,51 +340,17 @@
 						{
 							"label": "build",
 							"dependsOn": [
-								"install package"
-								// "poetry install",
+								// "install package"
+								"poetry install"
 							],
 							"problemMatcher": []
 						},
-						// {
-						// 	"label": "poetry lock",
-						// 	"type": "shell",
-						// 	"command": "poetry",
-						// 	"args": [
-						// 		"lock",
-						// 		"--no-update"
-						// 	],
-						// 	"dependsOn": [
-						// 		"activate venv"
-						// 	],
-						// 	"presentation": {
-						// 		"showReuseMessage": false
-						// 	},
-						// 	"problemMatcher": []
-						// },
-						// {
-						// 	"label": "poetry install",
-						// 	"type": "shell",
-						// 	"command": "poetry",
-						// 	"args": [
-						// 		"install",
-						// 		"--no-interaction",
-						// 		"--no-ansi",
-						// 		"--directory=./",
-						// 		"--with=test"
-						// 	],
-						// 	"presentation": {
-						// 		"panel": "shared"
-						// 	},
-						// 	"problemMatcher": []
-						// },
 						{
-							"label": "build package",
+							"label": "poetry lock",
 							"type": "shell",
 							"command": "poetry",
 							"args": [
-								"build",
-								"--output",
-								"./dist/"
+								"lock"
 							],
 							"presentation": {
 								"showReuseMessage": false
@@ -392,22 +358,55 @@
 							"problemMatcher": []
 						},
 						{
-							"label": "install package",
+							"label": "poetry install",
 							"type": "shell",
-							"command": "pip",
+							"command": "poetry",
 							"args": [
 								"install",
-								"./dist/*.whl",
-								"--force-reinstall"
+								"--no-interaction",
+								"--no-ansi",
+								"--directory=./",
+								"--with=test"
 							],
 							"dependsOn": [
-								"build package"
+								"poetry lock"
 							],
 							"presentation": {
 								"panel": "shared"
 							},
 							"problemMatcher": []
 						},
+						// {
+						// 	"label": "build package",
+						// 	"type": "shell",
+						// 	"command": "poetry",
+						// 	"args": [
+						// 		"build",
+						// 		"--output",
+						// 		"./dist/"
+						// 	],
+						// 	"presentation": {
+						// 		"showReuseMessage": false
+						// 	},
+						// 	"problemMatcher": []
+						// },
+						// {
+						// 	"label": "install package",
+						// 	"type": "shell",
+						// 	"command": "pip",
+						// 	"args": [
+						// 		"install",
+						// 		"./dist/*.whl",
+						// 		"--force-reinstall"
+						// 	],
+						// 	"dependsOn": [
+						// 		"build package"
+						// 	],
+						// 	"presentation": {
+						// 		"panel": "shared"
+						// 	},
+						// 	"problemMatcher": []
+						// },
 						{
 							"label": "sphinx build docs",
 							"type": "shell",
