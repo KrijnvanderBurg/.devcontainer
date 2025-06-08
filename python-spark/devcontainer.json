@@ -1,6 +1,6 @@
 // https://containers.dev/implementors/json_reference/
 {
-	"name": "python",
+	"name": "python-spark",
 	"dockerComposeFile": [
 		"./docker-compose.yml"
 	],
