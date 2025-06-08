@@ -21,7 +21,7 @@ git submodule update --init --recursive
    - This process may take several minutes the first time
 
 ## Available Containers
-### [Python DevContainer](./python)
+### [Python DevContainer](./python-spark)
 A complete Python development environment with:
 
 - Python 3.11 runtime and Poetry package manager
@@ -30,7 +30,7 @@ A complete Python development environment with:
 - Testing configuration with pytest and coverage reporting
 - Pre-configured VS Code tasks for all development workflows
 
-### [Spark DevContainer](./spark/)
+### [Spark DevContainer](./spark-cluster/)
 A complete Apache Spark development environment:
 
 - Fully configured Spark cluster (master, workers, history server)
