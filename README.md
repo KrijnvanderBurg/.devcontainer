@@ -10,7 +10,7 @@ This repository contains several specialized DevContainers for different develop
 ## Usage
 1. Add this repository as a Git submodule to your project:
 ```bash
-git submodule add https://github.com/YOUR-USERNAME/.devcontainer.git .devcontainer
+git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devcontainer
 git submodule update --init --recursive
 ```
 

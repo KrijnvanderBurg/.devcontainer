@@ -24,7 +24,7 @@
     // "updateContentCommand": {},
     // "postCreateCommand": {},
     "postStartCommand": {
-		// "zsh": "../.dotfiles/install.sh"
+		// "zsh": "../.dotfiles/python/install.sh"
     },
     // "postAttachCommand": {},
     // "waitFor": "", // default updateContentCommand
@@ -95,7 +95,7 @@
                         {
                             "label": "git clean",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/git_clean.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/git_clean.sh",
                             "runOptions": {
                                 "runOn": "default"
                             },
@@ -151,10 +151,10 @@
                         {
                             "label": "trufflehog",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/trufflehog.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/git/scripts/trufflehog.sh",
                             "args": [
-                                "--target_path=file://${workspaceFolder}/../",
-                                "--config_filepath=${workspaceFolder}/../.tools/v1/configs/trufflehog.toml"
+                                "file://${workspaceFolder}/../",
+                                "{workspaceFolder}/.devcontainer/.dotfiles/git/trufflehog.toml"
                             ],
                             "presentation": {
                                 "panel": "dedicated",
@@ -165,7 +165,7 @@
                         {
                             "label": "opentofu init",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_init.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/opentofu/opentofu_init.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
@@ -177,7 +177,7 @@
                         {
                             "label": "opentofu plan",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_plan.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/opentofu/opentofu_plan.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
@@ -189,7 +189,7 @@
                         {
                             "label": "opentofu validate",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_validate.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/opentofu/opentofu_validate.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
@@ -201,7 +201,7 @@
                         {
                             "label": "opentofu apply",
                             "type": "shell",
-                            "command": "${workspaceFolder}/../.tools/v1/commands/opentofu/opentofu_apply.sh",
+                            "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/opentofu/opentofu_apply.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
