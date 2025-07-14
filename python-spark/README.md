@@ -1,58 +1,133 @@
-# Python Devcontainer
-This is a one-stop shop for Code Quality tools and quality of life features for Python. It offers a complete suite of configured extensions, automatic commands via VScode tasks, and more.
+# Python DevContainer - Complete Code Quality Suite
 
-## Code Quality tools
-Sorted alphabetically (mostly). Recommended tool:
+A development environment with 20+ integrated code quality tools, automated CI/CD validation, and zero-configuration setup. This DevContainer provides everything you need for professional Python development: formatters, linters, type checkers, security scanners, dependency analyzers, test runners, and documentation generators.
 
-    Ruff, Flake8, Pylance, Pylint, Mypy, Pyright, Bandit, Semgrep, Gitleaks, Trufflehog, Ossaudit, OWASP, Pytest, Pytest coverage, Sphinx.
+## 🚀 Why Use This DevContainer?
+
+### Zero-Configuration Professional Development Environment
+DevContainers provide a fully configured and isolated development environment inside a container, ensuring consistent, reproducible, and platform-independent setup across your entire team. No more "works on my machine" issues or lengthy environment setup procedures.
+
+### Comprehensive Tool Integration
+This DevContainer includes 20+ carefully curated industry-standard Python development tools:
+
+- **🎨 Code Formatters**: Ruff, Black, isort - Ensure consistent code style across your team
+- **🔍 Linters & Analyzers**: Pylint, Flake8, Ruff Linter - Catch bugs and enforce best practices
+- **🔒 Type Checkers**: Mypy, Pyright, Pyre, Pylance - Prevent type-related errors before runtime
+- **🛡️ Security Scanners**: Bandit, Semgrep, DevSkim - Identify vulnerabilities and security issues
+- **🔐 Secret Detection**: Gitleaks, TruffleHog - Prevent credential leaks in your repository
+- **📦 Dependency Analysis**: OWASP Dependency Check, OSSAudit - Monitor third-party package vulnerabilities
+- **🧪 Testing & Coverage**: Pytest with Coverage.py - Ensure code reliability and test completeness
+- **📚 Documentation**: Sphinx - Generate professional documentation automatically
+
+### Two Modes of Operation
+
+#### Primary: Real-time Code Analysis (Opened Files)
+Extensions provide instant feedback as you code, showing issues directly in the editor and Problems tab for the currently open file.
+
+!["Preview of live problems tab showing issues"](./docs/preview_live_problems_tab.gif)
+
+Code Coverage can be seen directly in the editor after running tests. The `if` line shows orange for partially covered by unit tests and the `print` line shows red for not covered.
+
+![Preview Code Coverage in Editor](./docs/preview_coverage_in_editor.gif)
+
+
+#### Secondary: Complete Repository Validation (All Files)
+VS Code tasks run comprehensive analysis across your entire repository, simulating CI/CD pipeline checks locally.
+
+!["Run all Code Quality tools as VSCode Tasks"](./docs/run_all_vscode_tasks.gif)
+
+### Quick Setup
+
+**Launch**: Open project in VS Code → `F1` → "Dev Containers: Reopen in Container"
+
+### Architecture Benefits
+
+This implementation uses Docker Compose for maximum flexibility:
+- **Main Container**: Development environment with all tools pre-installed
+- **Extensible**: Easy to add supporting services (databases, message queues, etc.)
+- **Volume Mounts**: Persistent storage for workspace and configuration
+- **Platform Independent**: Consistent experience across Windows, macOS, and Linux
+
+## 🏁 Getting Started
+
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running
+- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) for VS Code
+
+### Quick Installation
+
+1. **📥 Clone This Example Repository**: 
+   ```bash
+   git clone https://github.com/KrijnvanderBurg/DevOps-Toolkit
+   cd DevOps-Toolkit
+   ```
+
+2. **📦 Initialize Submodules** (Required):
+   ```bash
+   git submodule update --init --recursive
+   ```
+   
+   **Why `--recursive`?** The `.devcontainer/.dotfiles` directory is a git submodule from another repository. This ensures all configuration files and scripts are properly downloaded. If you create a submodule of this devcontainer then its a nested submodule. 
+
+3. **🐳 Launch Container**: Open project in VS Code, press `F1` → "Dev Containers: Reopen in Container"
+
+4. **⚡ Verify Setup**: `Ctrl+Shift+P` → "Tasks: Run Task" → "test" (all tools should pass on a fresh project)
+
+### Architecture Notes
+
+- **Nested Repository Structure**: The `.devcontainer/.dotfiles` is a git submodule containing all tool configurations and scripts as a self-contained unit
+- **Why Submodule**: This approach keeps the DevContainer configuration portable and reusable across multiple projects while maintaining version control over the development environment setup
+
+**Pro Tips:**
+- Run `test` task before committing to catch issues early
+- Use individual tool tasks for focused debugging  
+- Check the Problems panel for real-time feedback on open files
+- Generated reports (`coverage.xml`, `JUNIT-TEST.xml`) provide detailed analysis
+
+## 🛠️ List of Code Quality Tools
 
 ### Formatters
 
-- **Black** <sup>[Docs](https://black.readthedocs.io/en/stable/) | [Github](https://github.com/psf/black) | [Pypi](https://pypi.org/project/black/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)</sup> - Black is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from pycodestyle nagging about formatting. You will save time and mental energy for more important matters. [Config file](../.dotfiles/python/.black) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/black.yaml) | [DevContainer config](#black)
+- **Ruff Formatter** <sup>[Docs](https://docs.astral.sh/ruff/) | [Github](https://github.com/astral-sh/ruff) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)</sup> - Lightning-fast Python formatter written in Rust, combining the functionality of Black, isort, and more. **Primary recommendation** for modern Python development.
 
-- **Isort** <sup>[Docs](https://pycqa.github.io/isort/) | [Github](https://github.com/PyCQA/isort) | [Pypi](https://pypi.org/project/isort/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)</sup> - isort is a Python utility / library to sort imports alphabetically and automatically separate into sections and by type. It provides a command line utility, Python library and plugins for various editors to quickly sort all your imports. It requires Python 3.8+ to run but supports formatting Python 2 code too. [Config file](../.dotfiles/python/.isort.cfg) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/isort.yaml) | [DevContainer config](#isort)
+- **Black** <sup>[Docs](https://black.readthedocs.io/en/stable/) | [Github](https://github.com/psf/black) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)</sup> - The uncompromising Python code formatter that eliminates debates about code style.
 
-- **Ruff** <sup>[Docs](https://docs.astral.sh/ruff/) | [Github](https://github.com/astral-sh/ruff) | [Pypi](https://pypi.org/project/ruff/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)</sup> - An extremely fast Python linter and code formatter, written in Rust. [Config file](../.dotfiles/python/ruff.toml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/atomic/python/ruff-formatter.yaml) | [DevContainer config](#ruff)
+- **isort** <sup>[Docs](https://pycqa.github.io/isort/) | [Github](https://github.com/PyCQA/isort) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)</sup> - Sorts Python imports alphabetically and automatically separates them into sections.
 
-### Linters
+### Linters & Code Quality
 
-- **Flake8** <sup>[Github](https://github.com/PyCQA/flake8) | [Docs](https://flake8.pycqa.org/en/latest/) | [Pypi](https://pypi.org/project/flake8/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.flake8)</sup> - Flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the style and quality of some python code. [Config file](../.dotfiles/python/.flake8) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/flake8.yaml) | [DevContainer config](#flake8)
+- **Ruff Linter** <sup>[Docs](https://docs.astral.sh/ruff/) | [Github](https://github.com/astral-sh/ruff) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)</sup> - Extremely fast linter with 800+ rules, replacing Flake8, pylint, and more. **Primary recommendation** for comprehensive code quality checks.
 
-- **Pylance** <sup>[Github](https://github.com/microsoft/pylance-release) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)</sup> - Pylance is an extension that works alongside Python in Visual Studio Code to provide performant language support. Under the hood, Pylance is powered by Pyright, Microsoft's static type checking tool. Using Pyright, Pylance has the ability to supercharge your Python IntelliSense experience with rich type information, helping you write better code faster. [DevContainer config](#pylance)
+- **Pylint** <sup>[Docs](https://pylint.org/) | [Github](https://github.com/pylint-dev/pylint) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint)</sup> - Comprehensive static code analyzer that checks for errors, enforces coding standards, and suggests refactorings.
 
-- **Pylint** <sup>[Docs](https://pylint.org/) | [Github](https://github.com/pylint-dev/pylint) | [Pypi](https://pypi.org/project/pylint/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint)</sup> - Pylint analyses your code without actually running it. It checks for errors, enforces a coding standard, looks for code smells, and can make suggestions about how the code could be refactored. [Config file](../.dotfiles/python/.pylintrc) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/pylint.yaml) | [DevContainer config](#pylint)
+- **Flake8** <sup>[Docs](https://flake8.pycqa.org/) | [Github](https://github.com/PyCQA/flake8) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.flake8)</sup> - Combines pycodestyle, pyflakes, and mccabe to check code style and quality.
 
-- **Ruff** <sup>[Docs](https://docs.astral.sh/ruff/) | [Github](https://github.com/astral-sh/ruff) | [Pypi](https://pypi.org/project/ruff/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)</sup> - An extremely fast Python linter and code formatter, written in Rust. [Config file](../.dotfiles/python/ruff.toml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/ruff-linter.yaml) | [DevContainer config](#ruff)
 
-- **SonarLint** <sup>[Docs](https://www.sonarsource.com/products/sonarlint/) | [Github](https://github.com/SonarSource/sonarlint-core) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)</sup> - A clean code linter for your IDE to help find & fix bugs, security issues & analysis across several programming languages to provide real-time feedback. [DevContainer config](#sonarlint)
+### Type Checkers
 
-### Type checker
+- **Pylance** <sup>[Github](https://github.com/microsoft/pylance-release) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)</sup> - Microsoft's fast, feature-rich Python language server powered by Pyright. Provides IntelliSense, type checking, and code navigation.
 
-- **Mypy** <sup>[Docs](https://mypy-lang.org/) | [Github](https://github.com/python/mypy) | [Pypi](https://pypi.org/project/mypy/) | [VS Code Marketplace](https://github.com/microsoft/vscode-mypy)</sup> - Mypy is an optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing. Mypy combines the expressive power and convenience of Python with a powerful type system and compile-time type checking. Mypy type checks standard Python programs; run them using any Python VM with basically no runtime overhead.  [Config file](../.dotfiles/python/mypy.ini) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/mypy.yaml) | [DevContainer config](#mypy)
+- **Mypy** <sup>[Docs](https://mypy-lang.org/) | [Github](https://github.com/python/mypy) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker)</sup> - Optional static type checker that combines dynamic and static typing benefits.
 
-- **Pyre** <sup>[Docs](https://pyre-check.org/) | [Github](https://github.com/facebook/pyre-check) | [Pypi](https://pypi.org/project/pyre-check/)</sup> - Pyre is a performant type checker for Python compliant with PEP 484. Pyre can analyze codebases with millions of lines of code incrementally – providing instantaneous feedback to developers as they write code. You can try it out on examples in the Pyre Playground. [Config file](../.dotfiles/python/.pyre_configuration) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/pyre.yaml)
+- **Pyright** <sup>[Docs](https://microsoft.github.io/pyright) | [Github](https://github.com/microsoft/pyright) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright)</sup> - Fast, standards-based static type checker designed for large Python codebases.
 
-- **Pyright** <sup>[Docs](https://microsoft.github.io/pyright) | [Github](https://github.com/microsoft/pyright) | [Pypi](https://pypi.org/project/pyright/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright)</sup> - Pyright is a full-featured, standards-based static type checker for Python. It is designed for high performance and can be used with large Python source bases. [Config file](../.dotfiles/python/.pyright) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/pyright.yaml)
+- **Pyre** <sup>[Docs](https://pyre-check.org/) | [Github](https://github.com/facebook/pyre-check)</sup> - Facebook's performant type checker that provides incremental analysis for large codebases.
 
-### Scanner
+### Security & Vulnerability Scanners
 
-- **Bandit** <sup>[Docs](https://bandit.readthedocs.io) | [Github](https://github.com/PyCQA/bandit) | [Pypi](https://pypi.org/project/bandit/) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=nwghbandit.ini)</sup> - Bandit is a tool designed to find common security issues in Python code. To do this, Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files, it generates a report. [Config file](../.dotfiles/python/bandit.ini) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/bandit.yaml) | [DevContainer config](#bandit)
+- **Bandit** <sup>[Docs](https://bandit.readthedocs.io) | [Github](https://github.com/PyCQA/bandit) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=nwgh.bandit)</sup> - Scans Python code for common security issues by analyzing AST patterns.
 
-- **Semgrep** (free version, limited rules) <sup>[Docs](https://semgrep.dev/p/python) | [Github](https://github.com/semgrep/semgrep) | [Pypi](https://pypi.org/project/semgrep/) | [VS Code Marketplace]()</sup> - Semgrep OSS is a fast, open-source, static analysis tool for searching code, finding bugs, and enforcing code standards at editor, commit, and CI time. (Poor CICD support, see AzDO template internal notes) [Config file](../.dotfiles/python/semgrep.yaml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/semgrep.yaml)
+- **Semgrep** <sup>[Docs](https://semgrep.dev/p/python) | [Github](https://github.com/semgrep/semgrep)</sup> - Fast static analysis tool for finding bugs, security vulnerabilities, and enforcing code standards.
 
-- **SonarQube** (TODO) <sup>[Docs](https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/languages/python/) | [Github](https://github.com/SonarSource/sonar-scanner-python)</sup> - Sonar's Clean Code solutions help developers deliver high-quality, efficient code standards that benefit the entire team or organization. [Config file](../.dotfiles/python/vulture.toml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/vulture.yaml)
+- **DevSkim** <sup>[Docs](https://github.com/microsoft/DevSkim/wiki) | [Github](https://github.com/microsoft/DevSkim) | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=MS-CST-E.vscode-devskim)</sup> - Microsoft's security analysis framework for detecting vulnerabilities as you code.
 
-- **Vulture** <sup>[Github](https://github.com/jendrikseipp/vulture) | [Pypi](https://pypi.org/project/vulture/#history)</sup> - Vulture finds unused code in Python programs. This is useful for cleaning up and finding errors in large code bases. If you run Vulture on both your library and test suite you can find untested code.[Config file]() | [AzDO pipeline]() | [DevContainer config]()
+### Secrets & Credentials Detection
 
-- **DevSkim** <sup>[Docs](https://github.com/microsoft/DevSkim/wiki) | [Github](../.dotfiles/python/devskim.json) | [Download](https://github.com/microsoft/DevSkim?tab=readme-ov-file#command-line-interface)</sup> - DevSkim is a framework of IDE extensions and language analyzers that provide inline security analysis in the dev environment as the developer writes code. It has a flexible rule model that supports multiple programming languages. The goal is to notify the developer as they are introducing a security vulnerability in order to fix the issue at the point of introduction, and to help build awareness for the developer. [VS code extension has no option to load config file] [Config file](../.dotfiles/python/devskim.json) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/devskim.yaml) | [DevContainer config](#devskim)
+- **TruffleHog** <sup>[Github](https://github.com/trufflesecurity/trufflehog)</sup> - Searches through git repositories for high-entropy strings and secrets, detecting passwords, API keys, and tokens.
 
-#### Credentials scanner
+- **Gitleaks** <sup>[Github](https://github.com/gitleaks/gitleaks)</sup> - SAST tool for detecting and preventing hardcoded secrets in git repositories.
 
-- **Gitleaks** <sup>[Github](https://github.com/gitleaks/gitleaks)</sup> - Gitleaks is a SAST tool for detecting and preventing hardcoded secrets like passwords, api keys, and tokens in git repos. Gitleaks is an easy-to-use, all-in-one solution for detecting secrets, past or present, in your code. [Config file](../.dotfiles/git/.gitleaks.toml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/gitleaks.yaml)
-
-- **Trufflehog** <sup>[Github](https://github.com/trufflesecurity/trufflehog)</sup> - TruffleHog™ is a secrets scanning tool that digs deep into your code repositories to find secrets, passwords, and sensitive keys. [Config file](../.dotfiles/git/trufflehog.toml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/trufflehog.yaml)
-
-#### Dependency scanner
+### Dependency Analysis
 
 - **Ossaudit** <sup>[Github](https://github.com/illikainen/ossaudit) | [Pypi](https://pypi.org/project/ossaudit/)</sup> - Ossaudit uses Sonatype OSS Index to audit Python packages for known vulnerabilities. [Config file](../.dotfiles/python/ossaudit.yaml) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/ossaudit.yaml)
 
@@ -92,62 +167,19 @@ Sorted alphabetically (mostly). Recommended tool:
 
 - **Sphinx** <sup>[Docs](https://www.sphinx-doc.org/) | [Github](https://github.com/sphinx-doc/sphinx) | [Pypi](https://pypi.org/project/Sphinx/)</sup> - Sphinx makes it easy to create intelligent and beautiful documentation. [Config file](hello_world/docs/) | [AzDO pipeline](https://github.com/KrijnvanderBurg/.azuredevops/tree/main/v1/templates/atomic/python/sphinx.yaml)
 
-### TODO
-- **Docker Linter** (TODO)
-- **hadolint** (TODO)
-- **dockerlint** (TODO)  
-- **dive** (TODO) 
-- **docker-bench-security** (TODO) 
-- **dockle** (TODO) 
-- **snyk** (TODO) Checks dependencies for vulnerabilities with Snyk. [Snyk](https://snyk.io/)
-- **scanner_anchore** (TODO) Analyzes Docker images for vulnerabilities with Anchore. [Anchore](https://anchore.com/)
-- **trivy** (TODO) A Simple and Comprehensive Vulnerability Scanner for Containers and other Artifacts, Suitable for CI. [Trivy](https://github.com/aquasecurity/trivy)
-- **clair** (TODO) Vulnerability Static Analysis for Containers. [Clair](https://github.com/quay/clair)
+## ⚙️ VS Code Extensions Configuration
 
+This DevContainer automatically installs and configures all necessary VS Code extensions. This section provides technical details about extension settings for developers who want to understand or customize the configuration.
 
-## DevContainers
-DevContainers in Visual Studio Code provide a fully configured and isolated development environment inside a container. This allows you to maintain a consistent, reproducible, and platform-independent setup, which can be  beneficial for teams.
+### 🧩 Why Use VS Code Extensions?
+Extensions improve your development workflow by providing real-time feedback, automated formatting, security scanning, and advanced code navigation—all directly in your editor. Properly configuring these extensions ensures that every team member benefits from consistent tooling, immediate issue detection, and seamless integration with your DevContainer setup.
 
-1. **Install Docker**: Ensure Docker is installed on your machine. You can download it from the [official Docker website](https://www.docker.com/products/docker-desktop).
+!["Preview of live problems tab showing issues"](./docs/preview_live_problems_tab.gif)
 
-2. **Install the Remote - Containers extension in VS Code**: This extension is necessary to work with DevContainers. You can install it from the [VS Code marketplace](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+#### 🎨 Formatting Extensions
 
-3. **Configure your DevContainer**: Create a `.devcontainer` directory in your project root. Inside this directory, you'll need a `devcontainer.json` file to configure your DevContainer, and optionally a `Dockerfile` to define the container itself.
-
-    This implementation utilizes a `docker-compose.yaml` file specified in the `devcontainer.json`. The Docker Compose process uses a local Dockerfile located in the `.devcontainer` directory, which installs all the necessary tools for development. Docker Compose is employed due to its ability to effortlessly add additional supporting containers as needed. This can include Spark nodes, Azurite, or Airflow, depending on your code's dependencies.
-
-4. Add the following lines to `.gitattributes` file in project root. This prevents git from thinking ALL files changed due to different line endings when opening devcontainer from windows machine.
-    ```bash
-    * text=auto
-    *.sh text eol=lf
-    *.conf text eol=lf
-    ```
-
-5. Optional: Dev containers use WSL2. This can use a lot of resources, limits can be defined in `.wslconfig` and placed in `C:\Users\<username>\.wslconfig`. See `./.devcontainer/.wslconfig` for example config.
-
-    ```ini
-    [wsl2]
-    # Limits VM memory to use no more than 4 GB, this can be set as whole numbers using GB or MB
-    memory=6GB 
-    # Sets the VM to use two virtual processors
-    processors=4
-    # Sets amount of swap storage space to 8GB, default is 25% of available RAM
-    swap=8GB
-    # Disable (false) page reporting so WSL retains all allocated memory claimed from Windows and releases none back when free
-    pageReporting=true
-    ```
-
-6. **Open your project in a DevContainer**: With your project open in VS Code, press `F1` to open the command palette, then select the "Remote-Containers: Reopen in Container" command. VS Code will build (if necessary) and start your DevContainer, then reopen your project inside it.
-
-For more detailed information, refer to the [official VS Code DevContainers documentation](https://code.visualstudio.com/docs/remote/containers).
-
-
-### DevContainer VSCode Extensions
-
-#### Ruff
-Code formatter combining Black, isort, pylint and flake8 all together in one tool with near rules parity and extremely fast. Automatically runs on <kbd>file save</kbd> action for opened file.
-
-Using Ruff in combination with said tools it replaces makes no sense unless ruff does not have certian specific rules implemented.
+##### Ruff (Primary Formatter)
+Modern, fast formatter combining Black, isort, and more. Automatically runs on file save.
 
 ```json
 "extensions": [
@@ -171,8 +203,8 @@ Using Ruff in combination with said tools it replaces makes no sense unless ruff
 },
 ```
 
-#### Black
-Code formatter of pep8. Automatically runs on <kbd>file save</kbd> action for opened file.
+##### Black (Alternative Formatter)
+Uncompromising Python code formatter. Runs on file save.
 
 ```json
 "extensions": [
@@ -193,8 +225,8 @@ Code formatter of pep8. Automatically runs on <kbd>file save</kbd> action for op
 },
 ```
 
-#### Isort
-Import organizer of Pep8. Automatically runs on <kbd>file save</kbd> action for opened file. Press <kbd>Alt</kbd>+<kbd>shift</kbd>+<kbd>O</kbd> to manually run for currently open file. 
+##### Isort (Import Organizer)
+Sorts and organizes Python imports. Runs on file save.
 
 ```json
 "extensions": [
@@ -217,8 +249,10 @@ Import organizer of Pep8. Automatically runs on <kbd>file save</kbd> action for 
 },
 ```
 
-#### Pylint
-Code formatter of Pep8 and more. Automatically runs on <kbd>file save</kbd> action for opened file. Shows its result in code UI and in the `problems` section of VScode integrated terminal.
+#### 🔍 Linting Extensions
+
+##### Pylint
+Comprehensive code analyzer. Shows issues in editor and Problems tab.
 
 ```json
 "extensions": [
@@ -237,8 +271,8 @@ Code formatter of Pep8 and more. Automatically runs on <kbd>file save</kbd> acti
 },
 ```
 
-#### Flake8
-Linter of Pep8 and more. Automatically runs on <kbd>file save</kbd> action for opened file. Shows its result in code UI and in the `problems` section of VScode integrated terminal.
+##### Flake8  
+Style and quality checker. Shows issues in editor and Problems tab.
 
 ```json
 "extensions": [
@@ -255,8 +289,10 @@ Linter of Pep8 and more. Automatically runs on <kbd>file save</kbd> action for o
 },
 ```
 
-#### Bandit
-Code scanner of vulnerabilities and code quality. Automatically runs on <kbd>file save</kbd> action for opened file. Shows its result in code UI and in the `problems` section of VScode integrated terminal.
+#### 🛡️ Security Extensions
+
+##### Bandit
+Security vulnerability scanner. Shows issues in editor and Problems tab.
 
 ```json
 "extensions": [
@@ -274,10 +310,10 @@ Code scanner of vulnerabilities and code quality. Automatically runs on <kbd>fil
 },
 ```
 
-#### DevSkim
-Code scanner of vulnerabilities and code quality. Automatically runs on <kbd>file save</kbd> action for opened file. Shows its result in code UI and in the `problems` section of VScode integrated terminal.
+##### DevSkim
+Microsoft's security analysis framework. Shows security issues in editor.
 
-Cannot find proper documentation on settings, cant find a way to use config file either. Personally I am not a fan of this tool and don't recommend it.
+*Note: Limited configuration options available.*
 
 ```json
 "extensions": [
@@ -286,8 +322,10 @@ Cannot find proper documentation on settings, cant find a way to use config file
 "settings": {},
 ```
 
-#### Mypy
-Type checker and type hinting. Automatically runs on <kbd>file save</kbd> action for opened file. Shows its result in code UI and in the `problems` section of VScode integrated terminal.
+#### 🔧 Type Checking Extensions
+
+##### Mypy
+Static type checker. Shows type issues in editor and Problems tab.
 
 ```json
 "extensions": [
@@ -305,8 +343,10 @@ Type checker and type hinting. Automatically runs on <kbd>file save</kbd> action
 },
 ```
 
-#### Pytest
-Automatically discovers unit tests and can run them via extension pytest tab.
+#### 🧪 Testing Extensions
+
+##### Pytest
+Test discovery and execution. Access via Testing panel in VS Code sidebar.
 
 ```json
 "extensions": [],
@@ -320,8 +360,8 @@ Automatically discovers unit tests and can run them via extension pytest tab.
     "python.languageServer": "Default",
 ```
 
-#### Pylance
-Code validator and type checker. Runs automatically for all files. Shows its result in the `problems` section of VScode integrated terminal.
+##### Pylance (IntelliSense)
+Microsoft's Python language server. Provides IntelliSense, type checking, and code navigation.
 
 ```json
 "extensions": [
@@ -347,45 +387,144 @@ Code validator and type checker. Runs automatically for all files. Shows its res
 },
 ```
 
-#### SonarLint
-Code linter by SonarQube/SonarCloud. Runs automatically for files. Shows its results in the `problems` section of VScode integrated terminal.
+## 📊 Coverage Visualization
 
-Gives error popup when opening Json files: `SonarLint failed to analyze JSON code: Node.js runtime version 18.17.0 or later is required`. This devcontainer will not have a node.js configured simply because its a lot just for json files scanning for 1 extension. Just click 'do not show again' once.
+The DevContainer includes visual code coverage display that works with both VS Code's built-in test runner and task-based testing. Below shows an if statement being only partially covered by tests. The `if` line shows orange for partially covered by unit tests and the `print` line shows red for not covered.
 
-```json
-"extensions": [
-    "sonarsource.sonarlint-vscode"
-],
-"settings": {
-    "sonarlint.rules": {},
-    "sonarlint.testFilePattern": "**/tests/**,test_*.py, *_test.py",
-    "sonarlint.disableTelemetry": true,
-    "sonarlint.output.showAnalyzerLogs": true,
-    // "sonarlint.connectedMode.project": {},
-    // "sonarlint.connectedMode.connections.sonarqube": [
-    //     {
-    //         "connectionId": "",
-    //         "serverUrl": "",
-    //         "token": ""
-    //     }
-    // ],
-    // "sonarlint.connectedMode.connections.sonarcloud": [],
-},
+![Preview Code Coverage in Editor](./docs/preview_coverage_in_editor.gif)
+
+### How Coverage Works
+
+Both testing methods generate a `coverage.xml` file in the workspace root:
+
+- **VS Code UI Tests**: Run tests via the Testing panel (sidebar) → automatically generates `coverage.xml`
+- **VS Code Tasks**: Run `pytest and coverage` task → generates `coverage.xml` and `JUNIT-TEST.xml`
+
+### Coverage Gutter Extension
+
+Visual code coverage display shows covered/uncovered lines directly in editor gutters.
+
+**Setup:**
+1. Run tests with coverage using either method above
+2. Open Command Palette: `Ctrl+Shift+P`
+3. Run: "Coverage Gutter: Display Coverage"
+4. **Enable Watch Mode**: "Coverage Gutter: Watch" for automatic updates when `coverage.xml` changes
+
+**Benefits:**
+- **Real-time Feedback**: See coverage immediately after running tests
+- **Visual Indicators**: Green (covered), red (uncovered), yellow (partial) line highlighting
+- **Automatic Updates**: Watch mode refreshes coverage when you re-run tests
+
+**Troubleshooting:**
+- Ensure `coverage.xml` is generated in workspace root
+- Check `.coveragerc` configuration if coverage isn't working
+- Verify pytest is configured with coverage in `pytest.ini`
+
+## 🔧 VS Code Tasks - Complete CI/CD Pipeline Integration
+
+This DevContainer includes a comprehensive task automation system that mirrors your CI/CD pipeline, allowing you to validate your entire codebase locally before pushing to remote repositories.
+
+### Why Use Tasks?
+
+**Repository-Wide Analysis**: Unlike live editor feedback (limited to open files), tasks scan your entire codebase for comprehensive validation.  
+**Pre-Push Confidence**: Catch issues locally using the same tools and configurations as your production CI/CD pipeline.  
+**Parallel Execution**: Independent tasks can run simultaneously for faster feedback.
+
+!["Run all Code Quality tools as VSCode Tasks"](./docs/run_all_vscode_tasks.gif)
+
+### How to Run Tasks
+
+**Command Palette**: `Ctrl+Shift+P` → `"Tasks: Run Task"` → Select task  
+**Terminal Menu**: `Terminal` → `Run Task...`
+
+### Available Tasks
+
+#### 🏗️ Build Tasks
+- **poetry lock**: Lock dependencies
+- **poetry install**: Install dependencies  
+- **build package**: Create Python wheel
+- **install package**: Install the built package
+
+#### ✅ Test Tasks  
+- **sphinx build docs**: Generate documentation
+- **ruff formatter**: Format code with Ruff
+- **black**: Format code with Black
+- **isort**: Sort imports
+- **ruff linter**: Lint with Ruff
+- **pylint**: Lint with Pylint
+- **flake8**: Lint with Flake8
+- **mypy**: Type check with MyPy
+- **pyright**: Type check with Pyright
+- **pyre**: Type check with Pyre
+- **bandit**: Security scan with Bandit
+- **semgrep**: Security scan with Semgrep
+- **trufflehog**: Secret detection
+- **pytest and coverage**: Run tests with coverage
+
+### Results & Output
+- **Terminal Panels**: Each task runs in a dedicated terminal
+- **Error Indicator**: Red text with ❌ for failures
+- **Generated Reports**: `coverage.xml`, `JUNIT-TEST.xml` in workspace root
+
+### Technical Implementation
+
+All tasks execute shell scripts from `.devcontainer/.dotfiles/python/scripts/` using centralized configuration files. This ensures consistency between local development and CI/CD environments.
+
+### Configuration File Paths
+
+All tools reference centralized configuration files:
+```
+.devcontainer/.dotfiles/python/
+└── scripts/              # Execution scripts
+    ├── ruff_formatter.sh
+    ├── pylint.sh
+    └── ...
+├── ruff.toml            # Ruff configuration
+├── mypy.ini             # MyPy type checker settings
+├── pytest.ini           # Pytest configuration
+├── ...
 ```
 
-#### Coverage Gutter
-1. Generate a code coverage. This can be automated by providing additional args in the pytest extension and by configuring a vscode task to run coverage on folder open.
-    ```python
-    pytest ./ -s --cache-clear -c ./path/to/pytest.ini --cov ./ --cov-report xml:./coverage.xml --cov-config ./path/to/.coveragerc
-    ```
-    (requires `pytest`, `pytest-cov`)
-    
-2. <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd>: Coverage Gutter: Display Coverage. Or toggle `Coverage Gutter: Watch`, this will watch the coverage.xml for changes. 
+### Adding New Tasks
 
-    Though this might give error pop-ups as it might try to read while coverage.xml is still being generated.
+To add a new tool:
 
-If no coverage.xml is generated then its likely an issue with `.coveragerc`.
+1. **Add configuration**: Create tool config file in `.dotfiles/`
+2. **Create script**: Add execution script to `.dotfiles/.../scripts/` directory
+3. **Define task**: Add task definition to `devcontainer.json`
+4. **Update dependencies**: Add to appropriate task chain
 
+### Task Debugging
 
-### VSCode tasks
-todo
+For troubleshooting task execution:
+- Check script permissions (`chmod +x`)
+- Verify file paths and variable substitution
+- Test scripts manually in terminal
+- Review task output in dedicated terminal panels
+
+This comprehensive task system provides a robust foundation for maintaining code quality and ensuring CI/CD pipeline compatibility.
+
+## ⚙️ Platform Configuration
+
+#### Git Configuration (Recommended)
+Add the following lines to `.gitattributes` file in project root. This prevents git from thinking ALL files changed due to different line endings when opening devcontainer from Windows machines:
+```bash
+* text=auto
+*.sh text eol=lf
+*.conf text eol=lf
+```
+
+#### WSL2 Resource Limits (Optional)
+Dev containers use WSL2 on Windows, which can consume significant resources. You can define limits in `.wslconfig` and place it at `C:\Users\<username>\.wslconfig`:
+
+```ini
+[wsl2]
+# Limits VM memory to use no more than 6 GB
+memory=6GB 
+# Sets the VM to use four virtual processors
+processors=4
+# Sets amount of swap storage space to 8GB, default is 25% of available RAM
+swap=8GB
+# Enable page reporting so WSL releases memory back to Windows when free
+pageReporting=true
+```

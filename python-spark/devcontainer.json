@@ -1,11 +1,10 @@
 // https://containers.dev/implementors/json_reference/
 {
-	"name": "python-spark",
 	"dockerComposeFile": [
 		"./docker-compose.yml"
 	],
 	"workspaceFolder": "/workspace",
-	"service": "app",
+	"service": "devcontainer",
 	"remoteUser": "vscode",
 	"containerUser": "vscode",
 	//
@@ -22,15 +21,6 @@
 		"ghcr.io/devcontainers-extra/features/poetry:2": {
 			"version": "latest"
 		},
-		// // NodeJS only necessary for SonarLint extension, specifically to analyse .json files.
-		// // NoseJS can be safely removed, it only results in a pop-up error from sonarlint saying it cannot review .json files without nodejs.
-		// "ghcr.io/devcontainers/features/node:1": {
-		// 	"version": "latest"
-		// },
-		// // dotnet only required for DevSkim code quality tool.
-		// "ghcr.io/devcontainers/features/dotnet:2": {
-		// 	"version": "8.0"
-		// },
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	},
 	//
@@ -43,7 +33,10 @@
 		"PIP_DISABLE_PIP_VERSION_CHECK": "1",
 		"POETRY_VIRTUALENVS_CREATE": "false"
 	},
-	// "onCreateCommand": {},
+	"onCreateCommand": {
+		"poetry lock": "poetry lock",
+		"poetry install": ".devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh ./"
+	},
 	// "updateContentCommand": {},
 	// "postCreateCommand": {},
 	// "postStartCommand": {},
@@ -53,17 +46,14 @@
 		"vscode": {
 			"extensions": [
 				// Python
-				// Only necessary for some extensions to stop complaining, DevContainer image already has Python installed.
-				// "ms-python.python", // https://marketplace.visualstudio.com/items?itemName=ms-python.python
 				"ms-python.vscode-pylance", // https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance
 				// Linter
 				"charliermarsh.ruff", //https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
-				// "ms-python.black-formatter", // https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
+				"ms-python.black-formatter", // https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
 				"ms-python.pylint", // https://marketplace.visualstudio.com/items?itemName=ms-python.pylint
-				// "ms-python.isort", // https://marketplace.visualstudio.com/items?itemName=ms-python.isort
+				"ms-python.isort", // https://marketplace.visualstudio.com/items?itemName=ms-python.isort
 				"ms-python.flake8", // https://marketplace.visualstudio.com/items?itemName=ms-python.flake8
 				"ms-python.mypy-type-checker", // https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker
-				// "sonarsource.sonarlint-vscode", // https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode
 				// Coverage
 				"ryanluker.vscode-coverage-gutters",
 				// Scanner
@@ -170,43 +160,16 @@
 				"python.analysis.inlayHints.functionReturnTypes": true,
 				"python.analysis.inlayHints.callArgumentName": true,
 				"python.analysis.inlayHints.pytestParameters": true,
-				// //
-				// // SonarLint - https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode
-				// //
-				// // Settings rules in devcontainer does not work, only from user vscode settings. Therefore I cannot recommend using sonarlint.
-				// // If there is a rule to ignore or change, everybody will have to add to their personal vscode settings.
-				// "sonarlint.rules": {
-				// 	// "python:S107": {
-				// 	//		"level": "off"
-				// 	// }
-				// },
-				// "sonarlint.testFilePattern": "**/tests/**,test_*.py, *_test.py",
-				// "sonarlint.disableTelemetry": true,
-				// "sonarlint.output.showAnalyzerLogs": true,
-				// "sonarlint.connectedMode.project": {},
-				// "sonarlint.connectedMode.connections.sonarqube": [
-				//     {
-				//         "connectionId": "",
-				//         "serverUrl": "",
-				//         "token": ""
-				//     }
-				// ],
-				// "sonarlint.connectedMode.connections.sonarcloud": [],
-				// ...
 				//
-				// Docker - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker
-				// No settings exist
+				// Black - https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
 				//
-				// //
-				// // Black - https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
-				// //
-				// "black-formatter.args": [
-				// 	"--config",
-				// 	"${workspaceFolder}/.devcontainer/.dotfiles/python/.black"
-				// ],
-				// "black-formatter.cwd": "${workspaceFolder}",
-				// "black-formatter.enabled": true,
-				// "black-formatter.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
+				"black-formatter.args": [
+					"--config",
+					"${workspaceFolder}/.devcontainer/.dotfiles/python/.black"
+				],
+				"black-formatter.cwd": "${workspaceFolder}",
+				"black-formatter.enabled": true,
+				"black-formatter.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
 				//
 				// Pylint - https://marketplace.visualstudio.com/items?itemName=ms-python.pylint
 				//
@@ -223,17 +186,17 @@
 				"pylint.enabled": true,
 				"pylint.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
 				"pylint.lintOnChange": false, // keep false, its unusable slow.
-				// //
-				// // Isort - https://marketplace.visualstudio.com/items?itemName=ms-python.isort
-				// // Does not work on code save, can trigger by alt+shift+o
-				// //
-				// "isort.args": [
-				// 	"--settings-path",
-				// 	"${workspaceFolder}/.devcontainer/.dotfiles/python/.isort.cfg"
-				// ],
-				// "isort.serverEnabled": false,
-				// "isort.check": false,
-				// "isort.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
+				//
+				// Isort - https://marketplace.visualstudio.com/items?itemName=ms-python.isort
+				// Does not work on code save, can trigger by alt+shift+o
+				//
+				"isort.args": [
+					"--settings-path",
+					"${workspaceFolder}/.devcontainer/.dotfiles/python/.isort.cfg"
+				],
+				"isort.serverEnabled": false,
+				"isort.check": false,
+				"isort.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
 				//
 				// Flake8 - https://marketplace.visualstudio.com/items?itemName=ms-python.flake8
 				//
@@ -337,9 +300,10 @@
 						{
 							"label": "build",
 							"dependsOn": [
-								// "install package"
-								"poetry install"
+								"build package",
+								"install package"
 							],
+							"dependsOrder": "sequence",
 							"problemMatcher": []
 						},
 						{
@@ -369,37 +333,41 @@
 							},
 							"problemMatcher": []
 						},
-						// {
-						// 	"label": "build package",
-						// 	"type": "shell",
-						// 	"command": "poetry",
-						// 	"args": [
-						// 		"build",
-						// 		"--output",
-						// 		"./dist/"
-						// 	],
-						// 	"presentation": {
-						// 		"showReuseMessage": false
-						// 	},
-						// 	"problemMatcher": []
-						// },
-						// {
-						// 	"label": "install package",
-						// 	"type": "shell",
-						// 	"command": "pip",
-						// 	"args": [
-						// 		"install",
-						// 		"./dist/*.whl",
-						// 		"--force-reinstall"
-						// 	],
-						// 	"dependsOn": [
-						// 		"build package"
-						// 	],
-						// 	"presentation": {
-						// 		"panel": "shared"
-						// 	},
-						// 	"problemMatcher": []
-						// },
+						{
+							"label": "build package",
+							"type": "shell",
+							"command": "poetry",
+							"args": [
+								"build",
+								"--output",
+								"./dist/"
+							],
+							"presentation": {
+								"showReuseMessage": false
+							},
+							"problemMatcher": []
+						},
+						{
+							"label": "install package",
+							"type": "shell",
+							"command": "pip",
+							"args": [
+								"install",
+								"./dist/*.whl",
+								"--force-reinstall"
+							],
+							"dependsOn": [
+								"build package"
+							],
+							"presentation": {
+								"panel": "shared"
+							},
+							"group": {
+								"kind": "build",
+								"isDefault": true
+							},
+							"problemMatcher": []
+						},
 						{
 							"label": "sphinx build docs",
 							"type": "shell",
@@ -418,25 +386,24 @@
 						{
 							"label": "test",
 							"dependsOn": [
-								"coverage-gutters watch",
+								// "coverage-gutters watch",
 								"sphinx build docs",
 								"ruff formatter",
-								"black",
-								"isort",
+								// "black",
+								// "isort",
 								"ruff linter",
 								"pylint",
 								"flake8",
 								"mypy",
 								"pyre",
-								"pyright",
-								"trufflehog",
+								// "pyright",
+								// "trufflehog",
 								"bandit",
-								"semgrep",
-								"devskim",
-								"graudit",
-								"vulture",
+								// "vulture",
 								// dependency checks
-								"ossaudit",
+								// "ossaudit",
+								"semgrep",
+								// "graudit",
 								// unit tests
 								"pytest and coverage"
 							],
