@@ -136,6 +136,7 @@
 					"-s",
 					"--cov=${workspaceFolder}/src/",
 					"--cov-report=xml:${workspaceFolder}/coverage.xml",
+					"--cov-report=term-missing",
 					"--cov-config=${workspaceFolder}/.devcontainer/.dotfiles/python/.coveragerc",
 					"--junit-xml=${workspaceFolder}/JUNIT-TEST.xml"
 				],

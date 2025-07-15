@@ -387,7 +387,7 @@ Microsoft's Python language server. Provides IntelliSense, type checking, and co
 },
 ```
 
-## 📊 Coverage Visualization
+## 📊 Code Coverage Visualization
 
 The DevContainer includes visual code coverage display that works with both VS Code's built-in test runner and task-based testing. Below shows an if statement being only partially covered by tests. The `if` line shows orange for partially covered by unit tests and the `print` line shows red for not covered.
 
