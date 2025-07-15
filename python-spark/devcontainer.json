@@ -640,7 +640,7 @@
 							"type": "shell",
 							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pytest_and_coverage.sh",
 							"args": [
-								"${workspaceFolder}/tests/unit/",
+								"${workspaceFolder}/tests/",
 								"${workspaceFolder}/src/",
 								"${workspaceFolder}/.devcontainer/.dotfiles/python/pytest.ini",
 								"${workspaceFolder}/.devcontainer/.dotfiles/python/.coveragerc",
