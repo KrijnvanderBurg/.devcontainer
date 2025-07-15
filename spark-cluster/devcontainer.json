@@ -1,8 +1,13 @@
 {
-    "name": "spark cluster",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
+    // "onCreateCommand": {},
+	// "updateContentCommand": {},
+	// "postCreateCommand": {},
+	// "postStartCommand": {},
+	// "postAttachCommand": {},
+	// "waitFor": "", // default updateContentCommand
     "customizations": {
         "vscode": {
             "extensions": [

@@ -35,14 +35,14 @@
 	},
 	"onCreateCommand": {
 		"poetry lock": "poetry lock",
-		"poetry install": ".devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh ./"
+		"poetry install": "/workspace/.devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh ./"
 	},
 	// "updateContentCommand": {},
 	// "postCreateCommand": {},
 	// "postStartCommand": {},
 	// "postAttachCommand": {},
 	// "waitFor": "", // default updateContentCommand
-	"customizations": {
+	"customizations": {  
 		"vscode": {
 			"extensions": [
 				// Python
