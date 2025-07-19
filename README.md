@@ -4,7 +4,7 @@ This repository contains several specialized DevContainers for different develop
 > **Note**: The `.devcontainer` folder might be invisible in some file explorers due to the leading dot (`.`) in its name. Ensure your file explorer is configured to show hidden files and folders.
 
 ## Available Containers
-### [Python DevContainer](./python-spark)
+### [Python -Code Quality- DevContainer](./python-spark)
 A complete Python development environment with:
 
 - Python 3.11 runtime and Poetry package manager
@@ -13,7 +13,7 @@ A complete Python development environment with:
 - Testing configuration with pytest and coverage reporting
 - Pre-configured VS Code tasks for all development workflows
 
-### [Spark DevContainer](./spark-cluster/)
+### [Spark Cluster DevContainer](./spark-cluster/)
 A complete Apache Spark development environment:
 
 - Fully configured Spark cluster (master, workers, history server)
@@ -46,7 +46,7 @@ git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devconta
 git submodule update --init --recursive
 ```
 
-> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The `.dotfiles` directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. See below under chapter [architecture](#architecture-shared-configuration-submodule-dotfiles) why.
+> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The [`.dotfiles`](https://github.com/KrijnvanderBurg/.dotfiles) directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. See below under chapter [architecture](#architecture-shared-configuration-submodule-dotfiles) why.
 
 2. **Build and start the DevContainer**:
    - Press `F1` to open the command palette
@@ -56,9 +56,9 @@ git submodule update --init --recursive
 
 
 
-## Architecture: Shared Configuration Submodule `.dotfiles`
+## 🏗️ Architecture: Shared Configuration Submodule `.dotfiles`
 
-This DevContainer repository uses a **nested `.dotfiles` submodule architecture** to ensure **100% consistency** between local development environments and CI/CD pipelines.
+This DevContainer repository uses a **nested [`.dotfiles`](https://github.com/KrijnvanderBurg/.dotfiles) submodule architecture** to ensure **100% consistency** between local development environments and CI/CD pipelines.
 
 ### Why Nested Submodules?
 
@@ -72,7 +72,7 @@ The `.dotfiles` directory is itself a Git submodule that contains:
 This same `.dotfiles` submodule is used by **other DevOps components**:
 
 - **`.devcontainer`** (this repository) - Local development environments
-- **`.azuredevops`** - CI/CD pipeline templates and automation
+- **[`.azuredevops`](github.com/krijnvanderburg/.azuredevops)** - CI/CD pipeline templates and automation
 - `...` other future submodules
 
 ### Benefits of This Architecture
