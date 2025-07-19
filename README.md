@@ -72,7 +72,7 @@ The `.dotfiles` directory is itself a Git submodule that contains:
 This same `.dotfiles` submodule is used by **other DevOps components**:
 
 - **`.devcontainer`** (this repository) - Local development environments
-- **[`.azuredevops`](github.com/krijnvanderburg/.azuredevops)** - CI/CD pipeline templates and automation
+- **[`.azuredevops`](https://github.com/krijnvanderburg/.azuredevops)** - CI/CD pipeline templates and automation
 - `...` other future submodules
 
 ### Benefits of This Architecture
