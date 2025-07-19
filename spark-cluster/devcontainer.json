@@ -1,3 +1,4 @@
+// https://containers.dev/implementors/json_reference/
 {
     "dockerComposeFile": "./docker-compose.yml",
     "service": "devcontainer",
@@ -32,7 +33,6 @@
                         }
                     }
                 ],
-                
                 // VSCode Tasks
                 "tasks": {
                     "version": "2.0.0",
