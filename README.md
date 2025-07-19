@@ -3,23 +3,6 @@ This repository contains several specialized DevContainers for different develop
 
 > **Note**: The `.devcontainer` folder might be invisible in some file explorers due to the leading dot (`.`) in its name. Ensure your file explorer is configured to show hidden files and folders.
 
-## Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed
-
-## Usage
-1. Add this repository as a Git submodule to your project:
-```bash
-git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devcontainer
-git submodule update --init --recursive
-```
-
-2. **Build and start the DevContainer**:
-   - Press `F1` to open the command palette
-   - Type and select `Dev Containers: Rebuild and Reopen in Container`
-   - VS Code will build the Docker images and start the containers defined in `docker-compose.yml`
-   - This process may take several minutes the first time
-
 ## Available Containers
 ### [Python DevContainer](./python-spark)
 A complete Python development environment with:
@@ -46,3 +29,89 @@ An environment for infrastructure as code development:
 - Azure CLI integration
 - Security scanning tools
 - VS Code tasks for common OpenTofu operations (init, plan, validate)
+
+
+
+## 🏁 Getting Started
+
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed
+
+### Quick Installation
+
+1. **Add this repository as a Git submodule to your project:**
+```bash
+git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devcontainer
+git submodule update --init --recursive
+```
+
+> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The `.dotfiles` directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. See below under chapter [architecture](#architecture-shared-configuration-submodule-dotfiles) why.
+
+2. **Build and start the DevContainer**:
+   - Press `F1` to open the command palette
+   - Type and select `Dev Containers: Rebuild and Reopen in Container`
+   - VS Code will build the Docker images and start the containers defined in `docker-compose.yml`
+   - This process may take several minutes the first time
+
+
+
+## Architecture: Shared Configuration Submodule `.dotfiles`
+
+This DevContainer repository uses a **nested `.dotfiles` submodule architecture** to ensure **100% consistency** between local development environments and CI/CD pipelines.
+
+### Why Nested Submodules?
+
+The `.dotfiles` directory is itself a Git submodule that contains:
+- **Configuration files** for all development tools (linters, formatters, type checkers, security scanners)
+- **Shell scripts** that execute each tool with identical parameters and settings
+- **Shared standards** across multiple environments
+
+### Consistency Across Environments
+
+This same `.dotfiles` submodule is used by **other DevOps components**:
+
+- **`.devcontainer`** (this repository) - Local development environments
+- **`.azuredevops`** - CI/CD pipeline templates and automation
+- `...` other future submodules
+
+### Benefits of This Architecture
+
+🎯 **Identical Tool Execution**: The exact same shell script runs both locally in DevContainers and in CI/CD pipelines  
+🔒 **Configuration Consistency**: All environments use identical configuration files for every tool  
+🚀 **Quality Gate Confidence**: If a tool passes locally, it will pass in CI/CD (and vice versa)  
+⚡ **Single Source of Truth**: Update tool configurations once, apply everywhere  
+🛠️ **Easier Maintenance**: Modify scripts and configs in one place, benefit all environments  
+
+### How It Works
+
+When you run a tool locally in VS Code:
+```json
+// Example VSCode Task
+{
+   "label": "pylint",
+   //              The Nested Submodule .dotfiles  ⤵
+   "command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pylint.sh", // ← Same script
+   "args": [
+      "${workspaceFolder}/src",                                                 // ← Same target dirpath
+      "--config ${workspaceFolder}/.devcontainer/.dotfiles/python/.pylintrc"    // ← Same config file
+   ],
+   ...
+}
+```
+
+When the CI/CD pipeline (Azure Devops template) runs the same tool:
+```js
+// Example Azure Devops pipeline step
+steps:
+- script: |
+    //               The Nested Submodule .dotfiles  ⤵
+    sh $(Build.Repository.LocalPath)/.azuredevops/.dotfiles/python/scripts/pylint.sh \ // ← Same script
+      $(Build.Repository.LocalPath)/src \                                            // ← Same dirpath
+      --config $(Build.Repository.LocalPath)/.azuredevops/.dotfiles/python/.pylintrc // ← Same config
+  displayName: Pylint (linter)
+  ...
+```
+
+This ensures that **quality gates in CI/CD match your local experience exactly**; eliminating waiting for CICD runs to see if it conforms to set quality gates.
+
