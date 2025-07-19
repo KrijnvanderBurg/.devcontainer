@@ -17,30 +17,37 @@ This DevContainer includes a full Spark ecosystem with enterprise-grade capabili
 - **📝 Event Logging**: Persistent storage for Spark events and application logs
 - *�🐍 PySpark Integration**: Pre-configured Python environment with Spark integration
 
-> **Note**: This DevContainer focuses exclusively on providing a Spark cluster environment. If you need additional Python development tools like linters, formatters, and code quality checkers, check out the [Python DevContainer](../python-spark/README.md). You can combine elements from both DevContainers based on your project needs.
-
-### Two Modes of Deploying a Job to Spark
-
-#### Primary: VS Code Actions
-Interactive development with integrated VS Code tasks and real-time monitoring.
-
-- **VS Code Tasks**: One-click job submission with `Ctrl+Shift+B` or `Terminal` → `Run Task` → `spark-submit`
-- **Real-time Monitoring**: Web UIs accessible for live cluster and job inspection
-- **Integrated Development**: Seamless file editing and job submission workflow
-
 ![Spark Cluster Demo](./docs/spark-cluster_final.gif)
 
-#### Secondary: Shell Script  
-Traditional `spark-submit` command-line interface for production workflows and CI/CD integration.
+> **Note**: This DevContainer focuses exclusively on providing a Spark cluster environment. If you need additional Python development tools like linters, formatters, and code quality checkers, check out the [Python DevContainer](../python-spark/README.md). You can combine elements from both DevContainers based on your project needs.
 
-```bash
-./spark-submit.sh .devcontainer/examples/test_job.py
-```
+### Modes of Deploying a Job to Spark
+Both modes use the traditional `spark-submit`command to deploy jobs to Spark. A shell script [`spark-submit.sh`](./spark-submit.sh) is included that takes a filepath parameter to a `.py` job. You can either run this command or shell script manually, or trigger the included VSCode Task that runs the same script.
+
+- **Suggested mode**: VS Code Actions
+Simple deployment via the User Interface of VSCode using Tasks via:  
+ `Ctrl+Shift+B` or `Terminal` → `Run Task` → `spark-submit current file`
+
+- **Manual Mode**: Run the included script from the terminal.
+    ```bash
+    cd .devcontainer/spark-cluster
+    ./spark-submit.sh test_job.py
+    ```
+
+- **Directly Run Spark-Submit**: 
+    ```bash
+    /opt/spark/bin/spark-submit \
+    --master spark://spark-master:7077 \
+    --deploy-mode client \
+    --conf spark.driver.host=devcontainer \
+    --conf spark.driver.bindAddress=0.0.0.0 \
+    /path/to/file/job.py
+    ```
 
 ### Jupyter Notebooks Integration
 **Jupyter notebooks automatically deploy to the Spark cluster** with zero configuration required:
 
-- Pre-configured Spark session (`spark`) ready for immediate use via `spark_init.py`
+- Pre-configured Spark session (`spark`) ready for immediate use via [`spark_init.py`](./spark_init.py)
 - Automatic cluster connectivity - no session setup needed
 - Interactive data exploration with distributed computing power
 - **Note**: Only one notebook can run at a time on the cluster
@@ -59,36 +66,44 @@ Traditional `spark-submit` command-line interface for production workflows and C
    cd DevOps-Toolkit
    ```
 2. **🐳 Launch Container**: Open project in VS Code, press `F1` → "Dev Containers: Rebuild and Reopen in Container"
-   - Select the `spark-cluster` configuration when prompted
-   - The build process may take several minutes the first time as it downloads Spark images
-3. **⚡ Verify Cluster**: Access http://localhost:8080 **on your host machine** to view the Spark Master UI
-   - **Important**: You may not be prompted to open this URL automatically - you need to manually navigate to localhost:8080 in your browser
-   - The port is forwarded from the DevContainer to your host machine
-4. **🧪 Test Setup**: Submit the included test job via `Terminal` → `Run Task` → `spark-submit` or run the test notebook
-
-### Centralized Access Point
-**Primary Entry**: http://localhost:8080 (Spark Master UI)  
-From the Master UI, you can navigate to all other components:
-- Click on worker links to access individual worker UIs
-- Click on application IDs to view detailed job execution
-- Access History Server through navigation links
+   - Select the `spark-cluster` configuration when prompted.
+   - The build process may take several minutes the first time as it downloads Spark images.
+3. **⚡ Verify Cluster**: Access localhost:8080 **on your host machine** to view the Spark Master UI.
+   - **Important**: You may not be prompted to open this URL automatically - you need to manually navigate to [localhost:8080](localhost:8080) in your browser.
+   - The port is forwarded from the DevContainer to your host machine.
+4. **🧪 Test Setup**: Submit the included test job via `Terminal` → `Run Task` → `spark-submit` or run the test notebook.
 
 ## Architecture Overview
-![Architecture Diagram](./design.drawio.png)
 
-The cluster consists of:
 - **DevContainer**: Your development environment with VS Code, Python, and PySpark
-- **Spark Master** (port 8080): Cluster coordinator and resource manager
-- **Spark Workers** (ports 8081, 8082): Distributed processing nodes
-- **History Server** (port 18080): Persistent job history and metrics
+- **Spark Master** ([localhost:8080](localhost:8080)): Cluster coordinator and resource manager
+- **Spark Workers** (ports [8081](localhost:8081), [8082](localhost:8082)): Distributed processing nodes
+- **History Server** (port [18080](localhost:18080)): Persistent job history and metrics
 - **Shared Storage**: Event logs and workspace files across all containers
+
+![Architecture Diagram](./design.drawio.png)
 
 ## 🛠️ Working with PySpark
 
-### Jupyter Notebooks vs Spark Jobs
+### Jupyter Notebooks vs PySpark Jobs
+Standalone PySpark jobs require explicit SparkSession creation for production deployments:
 
-#### Jupyter Notebooks: Interactive Development
-Notebooks include auto-initialization via `spark_init.py` with a pre-configured Spark session ready for immediate use:
+```python
+import time
+from pyspark.sql import SparkSession
+
+spark = SparkSession.Builder() \
+    .appName("Production Job") \
+    .getOrCreate()
+
+df = spark.createDataFrame([(1, "John"), (2, "Jane")], ["id", "name"])
+
+time.sleep(30)  # to allow opening the job in the UI
+
+df.show()
+```
+
+Notebooks include auto-initialization via [`spark_init.py`](./spark_init.py) with a pre-configured Spark session ready for immediate use:
 
 ```python
 # Spark session is already available - no initialization needed
@@ -98,29 +113,6 @@ df.show()
 # SparkContext is also available for RDD operations
 rdd = sc.parallelize([1, 2, 3, 4, 5])
 print(rdd.collect())
-```
-
-**Benefits**: 
-- Instant development with pre-configured session
-- Interactive data exploration and visualization
-- Shared cluster resources across notebook cells
-
-#### Spark Jobs: Production Workloads  
-Standalone Python scripts require explicit SparkSession creation for production deployments:
-
-```python
-from pyspark.sql import SparkSession
-
-# Explicit session creation for job submission
-spark = SparkSession.builder \
-    .appName("Production Job") \
-    .master("spark://spark-master:7077") \
-    .getOrCreate()
-
-df = spark.createDataFrame([(1, "John"), (2, "Jane")], ["id", "name"])
-df.show()
-
-spark.stop()  # Clean shutdown
 ```
 
 ## ⚙️ Configuration & Customization
@@ -170,15 +162,6 @@ networks:
   spark-network:    # Isolated cluster communication
 ```
 
-### Port Forwarding Configuration
-All web UIs are forwarded to your host machine:
-
-- **8080**: Spark Master UI (cluster management)
-- **8081**: Worker 1 UI (individual worker monitoring)
-- **8082**: Worker 2 UI (individual worker monitoring)  
-- **18080**: History Server (completed jobs)
-- **4040**: Application UI (active jobs only)
-
 ### VS Code Extensions & Settings
 Pre-configured extensions for optimal Spark development:
 
@@ -194,4 +177,3 @@ To add more workers or modify resources:
 2. **Modify docker-compose.yml**: Add additional services using the template
 3. **Restart DevContainer**: Rebuild to apply changes
 
-This comprehensive Spark cluster environment provides everything needed for professional distributed computing development, from interactive exploration to production job deployment.
