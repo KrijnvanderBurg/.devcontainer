@@ -46,7 +46,7 @@ git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devconta
 git submodule update --init --recursive
 ```
 
-> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The [`.dotfiles`](https://github.com/KrijnvanderBurg/.dotfiles) directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. See below under chapter [architecture](#architecture-shared-configuration-submodule-dotfiles) why.
+> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The [`.dotfiles`](https://github.com/KrijnvanderBurg/.dotfiles) directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. See below under chapter [architecture](#%EF%B8%8F-architecture-shared-configuration-submodule-dotfiles) why.
 
 2. **Build and start the DevContainer**:
    - Press `F1` to open the command palette
