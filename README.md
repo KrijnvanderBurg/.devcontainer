@@ -87,7 +87,7 @@ This same `.dotfiles` submodule is used by **other DevOps components**:
 
 ### How It Works: Pylint example
 When you run a tool locally in VS Code it uses a script and config file from `.dotfiles`.
-```json
+```jsonc
 // Example VSCode Task
 {
    "label": "pylint",
