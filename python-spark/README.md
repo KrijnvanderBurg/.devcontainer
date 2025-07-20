@@ -78,6 +78,8 @@ This implementation uses Docker Compose for maximum flexibility:
 - **Nested Repository Structure**: The `.devcontainer/.dotfiles` is a git submodule containing all tool configurations and scripts as a self-contained unit
 - **Why Submodule**: This approach keeps the DevContainer configuration portable and reusable across multiple projects while maintaining version control over the development environment setup
 
+> **🚀 Ready for production deployment?** This DevContainer uses identical configurations as the [Azure DevOps CI/CD templates](https://github.com/KrijnvanderBurg/.azuredevops). Your local quality checks **mirror your pipeline exactly** — when tests pass locally, they're guaranteed to pass in production.
+
 **Pro Tips:**
 - Run `test` task before committing to catch issues early
 - Use individual tool tasks for focused debugging  
@@ -528,3 +530,13 @@ swap=8GB
 # Enable page reporting so WSL releases memory back to Windows when free
 pageReporting=true
 ```
+
+---
+
+## 🚀 Take Your Development Further
+
+**Scale to Production:** Deploy with the [Azure DevOps CI/CD templates](https://github.com/KrijnvanderBurg/.azuredevops) that use identical configurations. **25+ pipeline templates** ensure seamless local-to-production workflows with zero surprises.
+
+**Understand the Magic:** Explore the [shared configuration architecture](https://github.com/KrijnvanderBurg/.dotfiles) that makes local-remote consistency possible. See how **one script, one config** eliminates environment drift.
+
+**Complete Integration:** Check out the [full DevOps Toolkit](https://github.com/KrijnvanderBurg/DevOps-Toolkit) for the complete picture of how DevContainers, CI/CD, and shared configs create a **unified development experience**.

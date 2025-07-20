@@ -1,8 +1,14 @@
+// https://containers.dev/implementors/json_reference/
 {
-    "name": "spark cluster",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
+    // "onCreateCommand": {},
+	// "updateContentCommand": {},
+	// "postCreateCommand": {},
+	// "postStartCommand": {},
+	// "postAttachCommand": {},
+	// "waitFor": "", // default updateContentCommand
     "customizations": {
         "vscode": {
             "extensions": [
@@ -27,7 +33,6 @@
                         }
                     }
                 ],
-                
                 // VSCode Tasks
                 "tasks": {
                     "version": "2.0.0",
@@ -36,7 +41,7 @@
                         {
                             "label": "spark-submit current file",
                             "type": "shell",
-                            "command": "${workspaceFolder}/.devcontainer/spark/spark-submit.sh ${file}",
+                            "command": "${workspaceFolder}/.devcontainer/spark-cluster/spark-submit.sh ${file}",
                             "group": {
                                 "kind": "build",
                                 "isDefault": true
