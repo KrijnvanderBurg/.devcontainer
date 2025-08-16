@@ -301,8 +301,8 @@
 						{
 							"label": "build",
 							"dependsOn": [
-								"build package",
-								"install package"
+								"build package"
+								// "install package"
 							],
 							"dependsOrder": "sequence",
 							"problemMatcher": []
