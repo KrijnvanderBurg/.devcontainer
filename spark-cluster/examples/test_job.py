@@ -1,8 +1,9 @@
 import time
+
 from pyspark.sql import SparkSession
 
 # Initialize Spark
-spark = SparkSession.builder.appName("Simple PySpark Demo").getOrCreate()
+spark = SparkSession.Builder().appName("Simple PySpark Demo").getOrCreate()
 
 df = spark.createDataFrame([(1, "John"), (2, "Jane")], ["id", "name"])
 
