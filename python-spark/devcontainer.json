@@ -34,7 +34,6 @@
 		"POETRY_VIRTUALENVS_CREATE": "false"
 	},
 	"onCreateCommand": {
-		"poetry lock": "poetry lock",
 		"poetry install": "/workspace/.devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh ./"
 	},
 	// "updateContentCommand": {},
