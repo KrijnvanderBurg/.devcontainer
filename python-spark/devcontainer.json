@@ -69,6 +69,7 @@
 				"GitHub.copilot-chat" // https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat
 			],
 			"settings": {
+				"gitlens.hovers.enabled": true, // gitlens disable popup
 				"editor.tabSize": 4,
 				"files.eol": "\n",  // crucial to prevent line ending issues when editing config files on windows
 				//
@@ -137,7 +138,9 @@
 					"--cov-report=xml:${workspaceFolder}/coverage.xml",
 					"--cov-report=term-missing",
 					"--cov-config=${workspaceFolder}/.devcontainer/.dotfiles/python/.coveragerc",
-					"--junit-xml=${workspaceFolder}/JUNIT-TEST.xml"
+					"--junit-xml=${workspaceFolder}/JUNIT-TEST.xml",
+					"--durations=0",
+					"--durations-min=0.01"
 				],
 				"python.languageServer": "Default",
 				//
