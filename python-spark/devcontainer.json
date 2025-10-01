@@ -303,6 +303,7 @@
 						{
 							"label": "build",
 							"dependsOn": [
+								"poetry install",
 								"build package"
 								// "install package"
 							],
