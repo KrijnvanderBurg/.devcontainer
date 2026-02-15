@@ -34,7 +34,7 @@
 		"POETRY_VIRTUALENVS_CREATE": "false"
 	},
 	"onCreateCommand": {
-		"poetry install": "/workspace/.devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh ./"
+		"poetry install": "/workspace/.github/configs/python/scripts/poetry-install-pyproject.sh ./"
 	},
 	// "updateContentCommand": {},
 	// "postCreateCommand": {},
@@ -59,40 +59,9 @@
 				"nwgh.bandit", // https://marketplace.visualstudio.com/items?itemName=nwgh.bandit
 				"ms-cst-e.vscode-devskim", // https://marketplace.visualstudio.com/items?itemName=MS-CST-E.vscode-devskim
 				// Tools
-				"ms-azuretools.vscode-docker", // https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker
-				"eamodio.gitlens", // https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-				"dvirtz.parquet-viewer", // https://marketplace.visualstudio.com/items?itemName=dvirtz.parquet-viewer
-				"tamasfe.even-better-toml", // https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml
-				"ms-azure-devops.azuredevops", // https://marketplace.visualstudio.com/items?itemName=ms-azure-devops.azuredevops
-				// Copilot
-				"GitHub.copilot", // https://marketplace.visualstudio.com/items?itemName=GitHub.copilot
-				"GitHub.copilot-chat" // https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat
+				"eamodio.gitlens" // https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
 			],
 			"settings": {
-				"gitlens.hovers.enabled": true, // gitlens disable popup
-				"editor.tabSize": 4,
-				"files.eol": "\n",  // crucial to prevent line ending issues when editing config files on windows
-				//
-				// Add the extension IDs you want to suppress being suggested
-				//
-				"extensions.unwantedRecommendations": [
-					"ms-vscode.makefile-tools"
-				],
-				//
-				// Terminal customisation
-				//
-				"terminal.integrated.enableVisualBell": true,
-				"terminal.integrated.defaultProfile.linux": "zsh",
-				"terminal.integrated.profiles.linux": {
-					"zsh": {
-						"path": "zsh"
-					}
-				},
-				// terminal used in VsCode tasks, make it default to shell to avoid issues with other scripts or other non-posix shells
-				// https://code.visualstudio.com/docs/terminal/profiles#_configuring-the-taskdebug-profile
-				"terminal.integrated.automationProfile.linux": {
-					"path": "/bin/sh"
-				},
 				//
 				// Git - search gitignore in parent monorepo folder
 				//
@@ -118,7 +87,7 @@
 				// `--config` flag must either be a path to a `.toml` configuration file or ...`
 				// It should have been fixed but it still happens for me. 
 				// https://github.com/astral-sh/ruff-vscode/issues/413
-				"ruff.configuration": "${workspaceFolder}/.devcontainer/.dotfiles/python/ruff.toml",
+				"ruff.configuration": "${workspaceFolder}/.github/configs/python/ruff.toml",
 				"ruff.organizeImports": true,
 				"ruff.fixAll": true,
 				//
@@ -130,14 +99,14 @@
 				"python.testing.pytestEnabled": true,
 				"python.testing.pytestArgs": [
 					"-c",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/pytest.ini",
+					"${workspaceFolder}/.github/configs/python/pytest.ini",
 					"-o",
 					"cache_dir=${workspaceFolder}/.pytest_cache",
 					"-s",
 					"--cov=${workspaceFolder}/src/",
 					"--cov-report=xml:${workspaceFolder}/coverage.xml",
 					"--cov-report=term-missing",
-					"--cov-config=${workspaceFolder}/.devcontainer/.dotfiles/python/.coveragerc",
+					"--cov-config=${workspaceFolder}/.github/configs/python/.coveragerc",
 					"--junit-xml=${workspaceFolder}/JUNIT-TEST.xml",
 					"--durations=0",
 					"--durations-min=0.01"
@@ -168,7 +137,7 @@
 				//
 				"black-formatter.args": [
 					"--config",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/.black"
+					"${workspaceFolder}/.github/configs/python/.black"
 				],
 				"black-formatter.cwd": "${workspaceFolder}",
 				"black-formatter.enabled": true,
@@ -178,7 +147,7 @@
 				//
 				"pylint.args": [
 					"--rcfile",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/.pylintrc"
+					"${workspaceFolder}/.github/configs/python/.pylintrc"
 				],
 				"pylint.path": [
 					"${interpreter}",
@@ -195,7 +164,7 @@
 				//
 				"isort.args": [
 					"--settings-path",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/.isort.cfg"
+					"${workspaceFolder}/.github/configs/python/.isort.cfg"
 				],
 				"isort.serverEnabled": false,
 				"isort.check": false,
@@ -205,7 +174,7 @@
 				//
 				"flake8.args": [
 					"--config",
-					"${containerWorkspaceFolder}/.devcontainer/.dotfiles/python/.flake8" // default "--config=${workspaceFolder}/.flake8"
+					"${containerWorkspaceFolder}/.github/configs/python/.flake8" // default "--config=${workspaceFolder}/.flake8"
 				],
 				"flake8.cwd": "${workspaceFolder}", // default ${workspaceFolder}
 				"flake8.showNotification": "onError", // 'off' (default), 'onWarning', 'onError', 'always'
@@ -215,7 +184,7 @@
 				//
 				"mypy-type-checker.args": [
 					"--config-file",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/mypy.ini"
+					"${workspaceFolder}/.github/configs/python/mypy.ini"
 				],
 				"mypy-type-checker.cwd": "${workspaceFolder}",
 				"mypy-type-checker.enabled": true,
@@ -227,7 +196,7 @@
 				//
 				"bandit.args": [
 					"-c",
-					"${workspaceFolder}/.devcontainer/.dotfiles/python/bandit.ini"
+					"${workspaceFolder}/.github/configs/python/bandit.ini"
 				],
 				"bandit.cwd": "${workspaceFolder}",
 				"bandit.logLevel": "warning", // 'error' (default), 'warning'
@@ -261,7 +230,7 @@
 						{
 							"label": "git clean",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/git_clean.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/git_clean.sh",
 							"runOptions": {
 								"runOn": "default"
 							},
@@ -325,7 +294,7 @@
 						{
 							"label": "poetry install",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/poetry-install-pyproject.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/poetry-install-pyproject.sh",
 							"args": [
 								"${workspaceFolder}" // target dirpath
 							],
@@ -375,7 +344,7 @@
 						{
 							"label": "sphinx build docs",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/sphinx.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/sphinx.sh",
 							"args": [
 								"${workspaceFolder}/docs/" // docs dirpath
 							],
@@ -416,10 +385,10 @@
 						{
 							"label": "ruff formatter",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/ruff_formatter.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/ruff_formatter.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/ruff.toml" // config filepath
+								"${workspaceFolder}/.github/configs/python/ruff.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -430,10 +399,10 @@
 						{
 							"label": "black",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/black.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/black.sh",
 							"args": [
 								"${workspaceFolder}/", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.black" // config filepath
+								"${workspaceFolder}/.github/configs/python/.black" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -444,10 +413,10 @@
 						{
 							"label": "isort",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/isort.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/isort.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.isort.cfg" // config filepath
+								"${workspaceFolder}/.github/configs/python/.isort.cfg" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -458,10 +427,10 @@
 						{
 							"label": "ruff linter",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/ruff_linter.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/ruff_linter.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/ruff.toml" // config filepath
+								"${workspaceFolder}/.github/configs/python/ruff.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -472,10 +441,10 @@
 						{
 							"label": "pylint",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pylint.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/pylint.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.pylintrc" // config filepath
+								"${workspaceFolder}/.github/configs/python/.pylintrc" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -486,10 +455,10 @@
 						{
 							"label": "flake8",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/flake8.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/flake8.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.flake8" // config filepath
+								"${workspaceFolder}/.github/configs/python/.flake8" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -500,10 +469,10 @@
 						{
 							"label": "mypy",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/mypy.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/mypy.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/mypy.ini" // config filepath
+								"${workspaceFolder}/.github/configs/python/mypy.ini" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -514,25 +483,25 @@
 						{
 							"label": "pyre",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pyre.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/pyre.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.pyre_configuration" // config filepath
+								"${workspaceFolder}/.github/configs/python/.pyre_configuration" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
 								"clear": true
 							},
                             "problemMatcher": [],
-							"cwd": "${workspaceFolder}/.devcontainer/.dotfiles/python/"
+							"cwd": "${workspaceFolder}/.github/configs/python/"
 						},
 						{
 							"label": "pyright",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pyright.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/pyright.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/pyrightconfig.json" // config filepath
+								"${workspaceFolder}/.github/configs/python/pyrightconfig.json" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -543,10 +512,10 @@
 						{
 							"label": "trufflehog",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/git/scripts/trufflehog.sh",
+							"command": "${workspaceFolder}/.github/configs/git/scripts/trufflehog.sh",
 							"args": [
 								"file://${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/git/trufflehog.toml" // config filepath
+								"${workspaceFolder}/.github/configs/git/trufflehog.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -557,10 +526,10 @@
 						{
 							"label": "bandit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/bandit.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/bandit.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/bandit.ini" // config filepath
+								"${workspaceFolder}/.github/configs/python/bandit.ini" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -571,10 +540,10 @@
 						{
 							"label": "semgrep",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/semgrep.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/semgrep.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/semgrep.yaml", // config filepath
+								"${workspaceFolder}/.github/configs/python/semgrep.yaml", // config filepath
 								"${workspaceFolder}/semgrep-junit.xml" // output filepath
 							],
 							"presentation": {
@@ -586,10 +555,10 @@
 						{
 							"label": "vulture",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/vulture.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/vulture.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/vulture.toml" // config filepath
+								"${workspaceFolder}/.github/configs/python/vulture.toml" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -600,10 +569,10 @@
 						{
 							"label": "devskim",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/devskim.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/devskim.sh",
 							"args": [
 								"${workspaceFolder}/src/", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/devskim.json" // config filepath
+								"${workspaceFolder}/.github/configs/python/devskim.json" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -614,7 +583,7 @@
 						{
 							"label": "graudit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/graudit.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/graudit.sh",
 							"args": [
 								"${workspaceFolder}/src/" // target dirpath
 							],
@@ -627,10 +596,10 @@
 						{
 							"label": "ossaudit",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/ossaudit.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/ossaudit.sh",
 							"args": [
 								"${workspaceFolder}", // target dirpath
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/ossaudit/config.ini" // config filepath
+								"${workspaceFolder}/.github/configs/python/ossaudit/config.ini" // config filepath
 							],
 							"presentation": {
 								"panel": "dedicated",
@@ -641,12 +610,12 @@
 						{
 							"label": "pytest and coverage",
 							"type": "shell",
-							"command": "${workspaceFolder}/.devcontainer/.dotfiles/python/scripts/pytest_and_coverage.sh",
+							"command": "${workspaceFolder}/.github/configs/python/scripts/pytest_and_coverage.sh",
 							"args": [
 								"${workspaceFolder}/tests/",
 								"${workspaceFolder}/src/",
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/pytest.ini",
-								"${workspaceFolder}/.devcontainer/.dotfiles/python/.coveragerc",
+								"${workspaceFolder}/.github/configs/python/pytest.ini",
+								"${workspaceFolder}/.github/configs/python/.coveragerc",
 								"${workspaceFolder}/coverage.xml",
 								"${workspaceFolder}/JUNIT-TEST.xml"
 							],

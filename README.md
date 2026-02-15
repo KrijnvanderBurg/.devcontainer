@@ -23,16 +23,12 @@ A complete Apache Spark development environment:
 - Web UIs for monitoring Spark clusters and jobs
 
 ### [OpenTofu DevContainer (in development)](./opentofu)
-An environment for infrastructure as code development:
+A focused OpenTofu development container that installs OpenTofu and provides VS Code tasks for common workflows.
 
-- OpenTofu (open-source Terraform alternative) pre-installed
-- Azure CLI integration
-- Security scanning tools
-- VS Code tasks for common OpenTofu operations (init, plan, validate)
+### [Ansible DevContainer](./ansible)
+A focused Ansible development container that installs Ansible tooling, provides VS Code tasks for common playbook workflows, and includes example pre-commit hooks for playbook linting and formatting.
 
 > **🚀 Ready to deploy with confidence?** These DevContainers use identical configurations as the [Azure DevOps CI/CD templates](https://github.com/KrijnvanderBurg/.azuredevops). Test your code quality, security scans, and deployments locally — **guaranteed consistency** means your pipeline will pass when local checks do.
-
-
 
 ## 🏁 Getting Started
 
@@ -40,21 +36,39 @@ An environment for infrastructure as code development:
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
 - [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed
 
-### Quick Installation
+### Quick installation
 
-1. **Add this repository as a Git submodule to your project:**
+1. Add this repository as a Git submodule to your project:
+
 ```bash
 git submodule add https://github.com/KrijnvanderBurg/.devcontainer.git .devcontainer
 git submodule update --init --recursive
 ```
 
-> **Important**: The `--recursive` flag is **required** because this DevContainer uses a nested submodule. The [`.dotfiles`](https://github.com/KrijnvanderBurg/.dotfiles) directory within this repository is itself a submodule containing shared configuration files and scripts that ensure consistency between local development and CI/CD environments. Details in chapter [Architecture](#%EF%B8%8F-architecture-shared-configuration-submodule-dotfiles).
+Important: the `--recursive` flag is required because this DevContainer uses a nested submodule. The `.dotfiles` directory within this repository is itself a submodule containing shared configs and scripts that ensure consistency between local development and CI/CD environments. See the Architecture section for details.
 
-2. **Build and start the DevContainer**:
-   - Press `F1` to open the command palette
-   - Type and select `Dev Containers: Rebuild and Reopen in Container`
-   - VS Code will build the Docker images and start the containers defined in `docker-compose.yml`
-   - This process may take several minutes the first time
+2. Build and start the DevContainer:
+
+- Press `F1` → `Dev Containers: Rebuild and Reopen in Container`.
+- VS Code will build the image(s) and start the container(s). The first build may take several minutes.
+
+### Pre-commit (local hooks)
+
+This repository includes example pre-commit configuration and DevContainer support to install hooks automatically when the container is created.
+
+- Example config: [.devcontainer/opentofu/example.pre-commit-config.yaml](.devcontainer/opentofu/example.pre-commit-config.yaml)
+- Example configs:
+   - [.devcontainer/opentofu/example.pre-commit-config.yaml](.devcontainer/opentofu/example.pre-commit-config.yaml)
+   - [.devcontainer/ansible/example.pre-commit-config.yaml](.devcontainer/ansible/example.pre-commit-config.yaml)
+- When using the OpenTofu DevContainer, `onCreateCommand` installs `pre-commit` via `pipx` and runs `pre-commit install` so hooks are available in the container shell.
+- To run hooks locally outside the container, install `pre-commit` (`pip install pre-commit`) and run:
+
+```bash
+pre-commit install
+pre-commit run --all-files
+```
+
+You can extend or replace the example file per-project; see the OpenTofu example for a Terraform/OpenTofu-focused hook set.
 
 
 

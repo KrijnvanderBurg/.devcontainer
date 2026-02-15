@@ -1,6 +1,6 @@
 // https://containers.dev/implementors/json_reference/
 {
-    "name": "OpenTofu",
+    "name": "Ansible",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
     "remoteUser": "vscode",
     "containerUser": "vscode",
@@ -8,7 +8,6 @@
     // Features - https://containers.dev/implementors/features.
     //
     "features": {
-        "ghcr.io/devcontainers/features/azure-cli:1": {},
         "ghcr.io/devcontainers/features/python:1": {
             "toolsToInstall": "pipx"
         }
@@ -19,7 +18,7 @@
     "containerEnv": {},
     "onCreateCommand": {
         "pre-commit-install": "pipx install pre-commit && pre-commit install",
-        "opentofu-install": "bash .github/scripts/opentofu-install.sh"
+        "ansible-install": "bash .github/scripts/ansible-install.sh"
     },
     // "postCreateCommand": {},
     // "postStartCommand": {},
@@ -29,8 +28,8 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                // Terraform
-                "hashicorp.terraform", // https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
+                // Ansible
+                "redhat.ansible", // https://marketplace.visualstudio.com/items?itemName=redhat.ansible
             ],
             "settings": {
                 //
@@ -44,14 +43,11 @@
                 "search.useIgnoreFiles": true,
                 "search.useParentIgnoreFiles": true,
                 //
-                // tf files
+                // Ansible files
                 //
-                "[terraform]": {
-                    "editor.defaultFormatter": "hashicorp.terraform",
-                    "editor.formatOnSave": true,
-                    "editor.codeActionsOnSave": {
-                        "source.formatAll.terraform": "explicit"
-                    }
+                "ansible.python.interpreterPath": "/usr/bin/python3",
+                "files.associations": {
+                    "**/01-onprem/**/*.yml": "ansible"
                 },
                 //
                 // VsCode Tasks
@@ -62,12 +58,12 @@
                     "options": {},
                     "tasks": [
                         //
-                        // OpenTofu tasks
+                        // Ansible tasks
                         //
                         {
-                            "label": "opentofu init",
+                            "label": "ansible lint",
                             "type": "shell",
-                            "command": "${workspaceFolder}/.github/scripts/opentofu-init.sh",
+                            "command": "${workspaceFolder}/.github/scripts/ansible-lint.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
@@ -77,9 +73,9 @@
                             "problemMatcher": []
                         },
                         {
-                            "label": "opentofu lint",
+                            "label": "ansible galaxy install",
                             "type": "shell",
-                            "command": "${workspaceFolder}/.github/scripts/opentofu-lint.sh",
+                            "command": "${workspaceFolder}/.github/scripts/ansible-galaxy-install.sh",
                             "args": [],
                             "group": "build",
                             "presentation": {
@@ -89,13 +85,18 @@
                             "problemMatcher": []
                         },
                         {
-                            "label": "opentofu plan",
+                            "label": "ansible playbook check",
                             "type": "shell",
-                            "command": "${workspaceFolder}/.github/scripts/opentofu-plan.sh",
+                            "command": "${workspaceFolder}/.github/scripts/ansible-playbook.sh",
                             "args": [],
                             "group": "build",
+                            "options": {
+                                "env": {
+                                    "MODE": "check"
+                                }
+                            },
                             "dependsOn": [
-                                "opentofu init"
+                                "ansible galaxy install"
                             ],
                             "presentation": {
                                 "reveal": "always",
@@ -104,11 +105,16 @@
                             "problemMatcher": []
                         },
                         {
-                            "label": "opentofu apply",
+                            "label": "ansible playbook apply",
                             "type": "shell",
-                            "command": "${workspaceFolder}/.github/scripts/opentofu-apply.sh",
+                            "command": "${workspaceFolder}/.github/scripts/ansible-playbook.sh",
                             "args": [],
                             "group": "build",
+                            "options": {
+                                "env": {
+                                    "MODE": "apply"
+                                }
+                            },
                             "presentation": {
                                 "reveal": "always",
                                 "panel": "shared"
